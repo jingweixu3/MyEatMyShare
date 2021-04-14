@@ -1,13 +1,22 @@
-import React from "react";
-import LandingBody from "./components/LandingBody";
-import LandingHeader from "./components/LandingHeader";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import ExploreNearbyPage from "./components/ExploreNearbyPage";
+import LandingPage from "./components/LandingPage";
+import UserHomePage from "./components/UserHomePage";
 
 const App = () => {
+  const [userLoggedIn, setuserLoggedIn] = useState(true);
+
   return (
-    <div>
-      <LandingHeader />
-      <LandingBody />
-    </div>
+    <Router>
+      <div>
+        {userLoggedIn && <Route path="/" exact component={UserHomePage} />}
+        {!userLoggedIn && <Route path="/" exact component={LandingPage} />}
+        {userLoggedIn && (
+          <Route path="/ExploreNearby" component={ExploreNearbyPage} />
+        )}
+      </div>
+    </Router>
   );
 };
 
