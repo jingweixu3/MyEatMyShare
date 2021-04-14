@@ -2,7 +2,7 @@ import React from "react";
 
 const PostGrid = () => {
   return (
-    <div className="col-md-4">
+    <div className="col-md-6 col-lg-4">
       <div className="card mb-4 box-shadow">
         <img
           className="card-img-top"

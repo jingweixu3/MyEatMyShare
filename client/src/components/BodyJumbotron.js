@@ -1,6 +1,6 @@
 import React from "react";
 
-const BodyJombutron = () => {
+const BodyJumbotron = () => {
   return (
     <section className="jumbotron text-center">
       <div className="container">
@@ -23,4 +23,4 @@ const BodyJombutron = () => {
   );
 };
 
-export default BodyJombutron;
+export default BodyJumbotron;

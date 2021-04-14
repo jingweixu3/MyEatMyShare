@@ -3,9 +3,9 @@ import PostGrid from "./PostGrid";
 
 const PostingBody = () => {
   return (
-    <div class="album py-5 bg-light">
-      <div class="container">
-        <div class="row">
+    <div className="album py-5 bg-light">
+      <div className="container">
+        <div className="row">
           <PostGrid />
           <PostGrid />
           <PostGrid />

@@ -1,11 +1,11 @@
 import React from "react";
-import BodyJombutron from "./BodyJombutron";
+import BodyJumbotron from "./BodyJumbotron";
 import PostingBody from "./PostingBody";
 
 const LandingBody = () => {
   return (
     <main>
-      <BodyJombutron />
+      <BodyJumbotron />
       <PostingBody />
     </main>
   );
