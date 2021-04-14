@@ -1,12 +1,14 @@
-import React from 'react';
-import Homepage from './components/Homepage';
+import React from "react";
+import LandingBody from "./components/LandingBody";
+import LandingHeader from "./components/LandingHeader";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Homepage />
+    <div>
+      <LandingHeader />
+      <LandingBody />
     </div>
   );
-}
+};
 
 export default App;
