@@ -7,7 +7,7 @@ const PostGrid = () => {
         <img
           className="card-img-top"
           src="https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=605&quality=45&auto=format&fit=max&dpr=2&s=90bb39b1fec000202ca9ba6f9996330a"
-          alt="Card image cap"
+          alt=""
         />
         <div className="card-body">
           <p className="card-text">
