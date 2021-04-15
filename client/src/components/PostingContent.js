@@ -1,32 +1,95 @@
-import React from "react";
+import React, { useState } from "react";
+import Axios from "axios";
 
 const PostingContent = () => {
+  const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState("");
+  const [content, setContent] = useState("");
+  const [error, setError] = useState(null);
+  const [resturant, setResturant] = useState("");
+
+  const types = ["image/png", "image/jpeg"];
+
+  const handleFileChange = (e) => {
+    let selected = e.target.files[0];
+    if (selected && types.includes(selected.type)) {
+      setFile(selected);
+      setFileName(selected.name);
+      setError("");
+    } else {
+      setFile(null);
+      setError("Please select an image file (png or jpg)");
+    }
+  };
+  const handleResturantChange = (e) => {
+    setResturant(e.target.value);
+  };
+  const handleContentChange = (e) => {
+    setContent(e.target.value);
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (!file) {
+      console.log("No file uploaded. Required a file");
+      return;
+    }
+    if (resturant === "") {
+      console.log("No Resturant. Required a resturant title");
+      return;
+    }
+    console.log(e);
+
+    console.log("Resturant:", resturant);
+    console.log("Content:", content);
+
+    const data = new FormData();
+    data.append("resturant", resturant);
+    data.append("file", file);
+    data.append("content", content);
+
+    Axios.post("/api/post/upload", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div>
-      <form className="mt-1 container w-25">
-        <div class="form-group">
+      <form className="mt-1 container col-lg-6" onSubmit={onSubmit}>
+        <div className="form-group">
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             id="postResturantName"
             placeholder="Resturant"
+            onChange={handleResturantChange}
           />
         </div>
-        <div class="custom-file mb-3">
-          <input type="file" class="custom-file-input" id="customFile" />
-          <label class="custom-file-label" for="customFile">
-            Choose file
+        <div className="custom-file mb-3">
+          <input
+            type="file"
+            className="custom-file-input"
+            id="customFile"
+            onChange={handleFileChange}
+          />
+          <label className="custom-file-label" htmlFor="customFile">
+            {fileName}
           </label>
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <textarea
-            class="form-control"
+            className="form-control"
             id="postBody"
             rows="3"
             placeholder="Content"
+            onChange={handleContentChange}
           ></textarea>
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <input
             type="submit"
             value="Upload"

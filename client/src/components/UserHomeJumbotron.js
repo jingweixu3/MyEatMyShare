@@ -13,7 +13,7 @@ const UserHomeJumbotron = () => {
       <div className="container mb-3">
         <button
           type="button"
-          class="btn btn-primary mr-2 btn-md"
+          className="btn btn-primary mr-2 btn-md"
           onClick={onClickPost}
         >
           AddPost
