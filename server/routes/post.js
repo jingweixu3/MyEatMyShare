@@ -25,7 +25,7 @@ router.post("/upload", upload.single("file"), async function (req, res, next) {
   post_info = await uploadPost(file, body);
 
   console.log("post_info: ", post_info);
-  res.json(post_info);
+  res.json({ msg: "Successfully Uploaded!" });
 });
 
 module.exports = router;

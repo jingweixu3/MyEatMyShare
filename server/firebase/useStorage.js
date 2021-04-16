@@ -41,7 +41,7 @@ async function uploadPost(file, body) {
     content,
   });
 
-  return { URL, post_uuid };
+  return post_uuid;
 }
 
 module.exports = { uploadPost, useFirestore };

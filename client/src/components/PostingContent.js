@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
 
-const PostingContent = () => {
+const PostingContent = ({ setPostButton }) => {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
   const [content, setContent] = useState("");
@@ -53,7 +53,14 @@ const PostingContent = () => {
         "Content-Type": "multipart/form-data",
       },
     })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        setFile(null);
+        setFileName("");
+        setContent("");
+        setResturant("");
+        setPostButton(false);
+      })
       .catch((err) => console.log(err));
   };
 

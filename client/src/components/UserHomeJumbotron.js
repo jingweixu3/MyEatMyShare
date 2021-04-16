@@ -20,7 +20,9 @@ const UserHomeJumbotron = () => {
         </button>
       </div>
 
-      <div>{postButton && <PostingContent />}</div>
+      <div>
+        {postButton && <PostingContent setPostButton={setPostButton} />}
+      </div>
     </section>
   );
 };
