@@ -4,6 +4,8 @@ const cors = require("cors");
 
 const app = express();
 
+global.XMLHttpRequest = require("xhr2");
+
 // Set post routes to post.js in routes folder
 const post = require("./routes/post");
 
