@@ -1,3 +1,4 @@
+const uuid = require("uuid");
 const { projectStorage, projectFirestore, timestamp } = require("./config");
 
 function useFirestore(collection) {
@@ -13,19 +14,34 @@ function useFirestore(collection) {
   return { docs };
 }
 
-async function uploadPost(file) {
+async function uploadPost(file, body) {
   console.log(file);
+  const post_uuid = uuid.v4();
+  const fileName = post_uuid + "_" + file.originalname;
   const createdAt = timestamp();
-  const fileName = file.originalname;
-  const ref = projectStorage.ref();
-  const storageRef = ref.child(fileName);
-  const collectionRef = projectFirestore.collection("resturant_posts");
-  let metadata = { contentType: file.mimetype, name: file.originalname };
 
-  const URL = await storageRef
-    .put(file.buffer, metadata)
-    .snapshot.ref.getDownloadURL();
+  const storageRef = projectStorage.ref().child(fileName);
+  const collectionRef = projectFirestore.collection("resturant_posts");
+
+  let metadata = { contentType: file.mimetype, name: file.originalname };
+  let resturant = body.resturant;
+  let content = body.content;
+
+  await storageRef.put(file.buffer, metadata);
+  const URL = await storageRef.getDownloadURL();
   console.log("finish uplaod: ", URL);
-  return URL;
+
+  await collectionRef.add({
+    fileName,
+    url: URL,
+    createdAt,
+    fileName,
+    post_uuid,
+    resturant,
+    content,
+  });
+
+  return { URL, post_uuid };
 }
+
 module.exports = { uploadPost, useFirestore };

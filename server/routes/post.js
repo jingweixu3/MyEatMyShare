@@ -22,9 +22,10 @@ router.post("/upload", upload.single("file"), async function (req, res, next) {
       .json({ msg: "File uploaded Failed! Check file type!" });
   }
   // console.log(file);
-  url = await uploadPost(file);
-  console.log("url: ", url);
-  res.json({ fileName: file.name });
+  post_info = await uploadPost(file, body);
+
+  console.log("post_info: ", post_info);
+  res.json(post_info);
 });
 
 module.exports = router;
