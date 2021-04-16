@@ -31,17 +31,13 @@ const PostingContent = ({ setPostButton }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!file) {
-      console.log("No file uploaded. Required a file");
+      setError("No File. Required a picture to uplaod!");
       return;
     }
     if (resturant === "") {
-      console.log("No Resturant. Required a resturant title");
+      setError("No Resturant. Required a resturant!");
       return;
     }
-    console.log(e);
-
-    console.log("Resturant:", resturant);
-    console.log("Content:", content);
 
     const data = new FormData();
     data.append("resturant", resturant);
@@ -63,18 +59,19 @@ const PostingContent = ({ setPostButton }) => {
       })
       .catch((err) => {
         console.log(err);
-        setError(err);
+        setError("Failed to upload");
       });
   };
 
   return (
     <div>
+      {/* aleart window when fail to upload  */}
       {error && (
         <div
           className="alert alert-danger alert-dismissible fade show"
           role="alert"
         >
-          Failed to Upload
+          {error}
           <button
             type="button"
             className="close"
@@ -85,7 +82,7 @@ const PostingContent = ({ setPostButton }) => {
           </button>
         </div>
       )}
-
+      {/* upload form  */}
       <form className="mt-1 container col-lg-6" onSubmit={onSubmit}>
         <div className="form-group">
           <input

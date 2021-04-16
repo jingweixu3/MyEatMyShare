@@ -3,13 +3,12 @@ import PostingContent from "./PostingContent";
 
 const UserHomeJumbotron = () => {
   const [postButton, setPostButton] = useState(false);
-
   const onClickPost = (e) => {
     setPostButton(!postButton);
   };
 
   return (
-    <section className="jumbotron vertical-align-center text-center">
+    <div className="jumbotron vertical-align-center text-center">
       <div className="container mb-3">
         <button
           type="button"
@@ -23,7 +22,7 @@ const UserHomeJumbotron = () => {
       <div>
         {postButton && <PostingContent setPostButton={setPostButton} />}
       </div>
-    </section>
+    </div>
   );
 };
 
