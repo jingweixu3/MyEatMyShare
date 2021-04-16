@@ -61,11 +61,31 @@ const PostingContent = ({ setPostButton }) => {
         setResturant("");
         setPostButton(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setError(err);
+      });
   };
 
   return (
     <div>
+      {error && (
+        <div
+          className="alert alert-danger alert-dismissible fade show"
+          role="alert"
+        >
+          Failed to Upload
+          <button
+            type="button"
+            className="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      )}
+
       <form className="mt-1 container col-lg-6" onSubmit={onSubmit}>
         <div className="form-group">
           <input
