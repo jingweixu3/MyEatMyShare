@@ -1,17 +1,17 @@
 const uuid = require("uuid");
 const { projectStorage, projectFirestore, timestamp } = require("./config");
 
-function useFirestore(collection) {
-  projectFirestore
+async function getAllPosts(collection) {
+  let documents = [];
+  const snapshot = await projectFirestore
     .collection(collection)
     .orderBy("createdAt", "desc")
-    .onSnapshot((snap) => {
-      let documents = [];
-      snap.forEach((doc) => {
-        documents.push({ ...doc.data(), id: doc.id });
-      });
-    });
-  return { docs };
+    .get();
+
+  snapshot.forEach((doc) => {
+    documents.push({ ...doc.data(), id: doc.id });
+  });
+  return documents;
 }
 
 async function uploadPost(file, body) {
@@ -44,4 +44,4 @@ async function uploadPost(file, body) {
   return post_uuid;
 }
 
-module.exports = { uploadPost, useFirestore };
+module.exports = { uploadPost, getAllPosts };
