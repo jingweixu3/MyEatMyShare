@@ -6,8 +6,7 @@ const multer = require("multer");
 const upload = multer();
 
 router.get("/all_posts", async (req, res) => {
-  data = await getAllPosts("resturant_posts");
-  res.json({ data });
+  res.json({ posts: await getAllPosts("resturant_posts") });
 });
 
 router.post("/upload", upload.single("file"), async function (req, res, next) {

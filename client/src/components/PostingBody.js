@@ -1,17 +1,14 @@
 import React from "react";
 import PostGrid from "./PostGrid";
 
-const PostingBody = () => {
+const PostingBody = ({ posts }) => {
   return (
     <div className="album py-5 bg-light">
       <div className="container">
         <div className="row">
-          <PostGrid />
-          <PostGrid />
-          <PostGrid />
-          <PostGrid />
-          <PostGrid />
-          <PostGrid />
+          {posts.map((post) => (
+            <PostGrid key={post.id} post={post} />
+          ))}
         </div>
       </div>
     </div>

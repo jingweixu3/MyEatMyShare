@@ -3,12 +3,12 @@ import Navbar from "./Navbar";
 import PostingBody from "./PostingBody";
 import UserHomeJumbotron from "./UserHomeJumbotron";
 
-const UserHomePage = () => {
+const UserHomePage = ({ posts }) => {
   return (
     <div>
       <Navbar />
       <UserHomeJumbotron />
-      <PostingBody />
+      <PostingBody posts={posts} />
     </div>
   );
 };
