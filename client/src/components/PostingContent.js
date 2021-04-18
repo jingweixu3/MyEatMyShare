@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
 
-const PostingContent = ({ setPostButton }) => {
+const PostingContent = ({ setPostButton, setPosts }) => {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
   const [content, setContent] = useState("");
@@ -56,6 +56,14 @@ const PostingContent = ({ setPostButton }) => {
         setContent("");
         setResturant("");
         setPostButton(false);
+        Axios.get("/api/post/all_posts")
+          .then((res) => {
+            console.log("dataaaaaaa: ", res.data.posts);
+            setPosts(res.data.posts);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);

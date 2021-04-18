@@ -25,7 +25,10 @@ const App = () => {
     <Router>
       <div>
         {userLoggedIn && (
-          <Route path="/" render={() => <UserHomePage posts={posts} />} />
+          <Route
+            path="/"
+            render={() => <UserHomePage posts={posts} setPosts={setPosts} />}
+          />
         )}
         {!userLoggedIn && <Route path="/" exact component={LandingPage} />}
         {userLoggedIn && (
