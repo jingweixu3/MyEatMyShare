@@ -3,7 +3,7 @@ import PostGrid from "./PostGrid";
 
 const PostingBody = ({ posts }) => {
   return (
-    <div className="album py-5 bg-light">
+    <div className="album py-4 bg-light">
       <div className="container">
         <div className="row">
           {posts.map((post) => (

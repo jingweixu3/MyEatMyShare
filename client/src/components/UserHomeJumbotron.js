@@ -8,7 +8,7 @@ const UserHomeJumbotron = ({ setPosts }) => {
   };
 
   return (
-    <div className="jumbotron vertical-align-center text-center">
+    <div className="jumbotron vertical-align-center text-center mb-0">
       <div className="container mb-3">
         <button
           type="button"

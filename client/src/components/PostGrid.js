@@ -6,23 +6,21 @@ const PostGrid = ({ post }) => {
       <div className="card mb-4 box-shadow">
         <img className="card-img-top" src={post.url} alt="" />
         <div className="card-body">
+          <h5 className="card-title">{post.resturant}</h5>
           <p className="card-text">{post.content}</p>
-          <div className="d-flex justify-content-between align-items-center">
-            <div className="btn-group">
-              <button
-                type="button"
-                className="btn btn-sm btn-outline-secondary"
-              >
-                View
-              </button>
-              <button
-                type="button"
-                className="btn btn-sm btn-outline-secondary"
-              >
-                Edit
+          <div className="input-group mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Recipient's username"
+              aria-label="Recipient's username"
+              aria-describedby="basic-addon2"
+            />
+            <div className="input-group-append">
+              <button className="btn btn-outline-secondary" type="button">
+                Send
               </button>
             </div>
-            <small className="text-muted">9 mins</small>
           </div>
         </div>
       </div>
