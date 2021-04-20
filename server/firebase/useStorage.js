@@ -1,5 +1,6 @@
 const uuid = require("uuid");
 const { projectStorage, projectFirestore, timestamp } = require("./config");
+const Axios = require("axios");
 
 async function getAllPosts(collection) {
   let documents = [];
@@ -15,7 +16,6 @@ async function getAllPosts(collection) {
 }
 
 async function uploadPost(file, body) {
-  console.log(file);
   const post_uuid = uuid.v4();
   const fileName = post_uuid + "_" + file.originalname;
   const createdAt = timestamp();
@@ -24,10 +24,16 @@ async function uploadPost(file, body) {
   const collectionRef = projectFirestore.collection("resturant_posts");
 
   let metadata = { contentType: file.mimetype, name: file.originalname };
-  let resturant = body.resturant;
+  let resturant_id = body.resturant_id;
   let content = body.content;
-  let resturant_coor = body.resturant_coor;
 
+  let res = await Axios.get(
+    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${resturant_id}&fields=name&key=AIzaSyDGx9NguhqUd5CeQR8FA12jwLTyFgBekxU`
+  );
+
+  console.log(res.data.result.name);
+
+  let resturant_name = res.data.result.name;
   await storageRef.put(file.buffer, metadata);
   const URL = await storageRef.getDownloadURL();
   console.log("finish uplaod: ", URL);
@@ -36,10 +42,9 @@ async function uploadPost(file, body) {
     fileName,
     url: URL,
     createdAt,
-    fileName,
     post_uuid,
-    resturant,
-    resturant_coor,
+    resturant_id,
+    resturant_name,
     content,
   });
 

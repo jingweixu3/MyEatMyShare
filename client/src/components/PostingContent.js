@@ -8,10 +8,6 @@ const PostingContent = ({ setPostButton, setPosts }) => {
   const [content, setContent] = useState("");
   const [error, setError] = useState(null);
   const [resturant, setResturant] = useState("");
-  const [resturant_coor, setResturant_coor] = useState({
-    lat: null,
-    lng: null,
-  });
 
   const types = ["image/png", "image/jpeg"];
 
@@ -42,13 +38,11 @@ const PostingContent = ({ setPostButton, setPosts }) => {
       return;
     }
 
-    console.log(resturant);
-    console.log(resturant_coor);
+    console.log(JSON.stringify(resturant));
     const data = new FormData();
-    data.append("resturant", resturant);
+    data.append("resturant_id", resturant);
     data.append("file", file);
     data.append("content", content);
-    data.append("resturant_coor", JSON.stringify(resturant_coor));
 
     Axios.post("/api/post/upload", data, {
       headers: {
@@ -99,11 +93,7 @@ const PostingContent = ({ setPostButton, setPosts }) => {
       {/* upload form  */}
       <form className="mt-1 container col-lg-6" onSubmit={onSubmit}>
         <div className="form-group">
-          <SearchPlaces
-            resturant={resturant}
-            setResturant={setResturant}
-            setResturant_coor={setResturant_coor}
-          />
+          <SearchPlaces setResturant={setResturant} />
         </div>
         <div className="custom-file mb-3">
           <input

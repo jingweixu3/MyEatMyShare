@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import PlacesAutocomplete, {
   geocodeByAddress,
-  getLatLng,
 } from "react-places-autocomplete";
 
-const SearchPlaces = ({ resturant, setResturant, setResturant_coor }) => {
+const SearchPlaces = ({ setResturant }) => {
+  const [address, setAddress] = useState("");
   const handleSelect = async (value) => {
-    const results = await geocodeByAddress(value);
-    const latLng = await getLatLng(results[0]);
-    setResturant(value);
-    setResturant_coor(latLng);
+    if (value !== "") {
+      const results = await geocodeByAddress(value);
+      console.log(results[0]);
+      setResturant(results[0].place_id);
+      setAddress(value);
+    }
+  };
+
+  const onChange = (value) => {
+    setAddress(value);
+    if (value === "") {
+      setResturant("");
+    }
   };
   return (
     <div>
       <PlacesAutocomplete
-        value={resturant}
-        onChange={setResturant}
+        value={address}
+        onChange={onChange}
         onSelect={handleSelect}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
