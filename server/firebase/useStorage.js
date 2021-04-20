@@ -26,6 +26,7 @@ async function uploadPost(file, body) {
   let metadata = { contentType: file.mimetype, name: file.originalname };
   let resturant = body.resturant;
   let content = body.content;
+  let resturant_coor = body.resturant_coor;
 
   await storageRef.put(file.buffer, metadata);
   const URL = await storageRef.getDownloadURL();
@@ -38,6 +39,7 @@ async function uploadPost(file, body) {
     fileName,
     post_uuid,
     resturant,
+    resturant_coor,
     content,
   });
 

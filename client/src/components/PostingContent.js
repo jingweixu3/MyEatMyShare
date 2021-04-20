@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import SearchPlaces from "./SearchPlaces";
 
 const PostingContent = ({ setPostButton, setPosts }) => {
   const [file, setFile] = useState(null);
@@ -7,6 +8,10 @@ const PostingContent = ({ setPostButton, setPosts }) => {
   const [content, setContent] = useState("");
   const [error, setError] = useState(null);
   const [resturant, setResturant] = useState("");
+  const [resturant_coor, setResturant_coor] = useState({
+    lat: null,
+    lng: null,
+  });
 
   const types = ["image/png", "image/jpeg"];
 
@@ -21,9 +26,7 @@ const PostingContent = ({ setPostButton, setPosts }) => {
       setError("Please select an image file (png or jpg)");
     }
   };
-  const handleResturantChange = (e) => {
-    setResturant(e.target.value);
-  };
+
   const handleContentChange = (e) => {
     setContent(e.target.value);
   };
@@ -39,10 +42,13 @@ const PostingContent = ({ setPostButton, setPosts }) => {
       return;
     }
 
+    console.log(resturant);
+    console.log(resturant_coor);
     const data = new FormData();
     data.append("resturant", resturant);
     data.append("file", file);
     data.append("content", content);
+    data.append("resturant_coor", JSON.stringify(resturant_coor));
 
     Axios.post("/api/post/upload", data, {
       headers: {
@@ -93,12 +99,10 @@ const PostingContent = ({ setPostButton, setPosts }) => {
       {/* upload form  */}
       <form className="mt-1 container col-lg-6" onSubmit={onSubmit}>
         <div className="form-group">
-          <input
-            type="text"
-            className="form-control"
-            id="postResturantName"
-            placeholder="Resturant"
-            onChange={handleResturantChange}
+          <SearchPlaces
+            resturant={resturant}
+            setResturant={setResturant}
+            setResturant_coor={setResturant_coor}
           />
         </div>
         <div className="custom-file mb-3">
