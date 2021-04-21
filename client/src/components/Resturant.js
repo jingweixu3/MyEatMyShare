@@ -15,8 +15,30 @@ const Resturant = (props) => {
       });
   }, []);
 
+  const onClick = async () => {
+    try {
+      const res = await Axios.get(`/api/resturant/nearby`, {
+        params: {
+          // lat: -33.8670522,
+          lng: 151.1957362,
+        },
+      });
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   console.log(props.match.params.id);
-  return <h1>Hello {resturant.name}!</h1>;
+
+  return (
+    <div>
+      <h1>Hello {resturant.name}!</h1>
+
+      <button type="button" className="btn btn-dark" onClick={onClick}>
+        FindNearby
+      </button>
+    </div>
+  );
 };
 
 export default Resturant;
