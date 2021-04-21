@@ -45,18 +45,29 @@ const App = () => {
     }
   }, []);
 
+  const Resturant = (props) => {
+    console.log(props.match.params.id);
+    return <h1>Hello {props.match.params.id}!</h1>;
+  };
   return (
     <Router>
       <div>
         {userLoggedIn && (
           <Route
+            exact
             path="/"
             render={() => <UserHomePage posts={posts} setPosts={setPosts} />}
           />
         )}
-        {!userLoggedIn && <Route path="/" exact component={LandingPage} />}
+        {!userLoggedIn && <Route exact path="/" component={LandingPage} />}
         {userLoggedIn && (
           <Route path="/ExploreNearby" component={ExploreNearbyPage} />
+        )}
+        {userLoggedIn && (
+          <Route
+            path="/Resturant/:id"
+            render={(props) => <Resturant {...props} />}
+          />
         )}
       </div>
     </Router>

@@ -1,10 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const PostGrid = ({ post }) => {
   return (
     <div className="col-md-6 col-lg-4">
       <div className="card mb-4 box-shadow">
-        <h5 className="card-title">{post.resturant_name}</h5>
+        <Link to={`/Resturant/${post.resturant_id}`}>
+          <h5 className="card-title">{post.resturant_name}</h5>
+        </Link>
+
         <img className="card-img-top" src={post.url} alt="" />
         <div className="card-body">
           <p className="card-text">{post.content}</p>
