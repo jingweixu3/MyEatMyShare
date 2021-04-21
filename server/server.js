@@ -8,11 +8,13 @@ global.XMLHttpRequest = require("xhr2");
 
 // Set post routes to post.js in routes folder
 const post = require("./routes/post");
+const resturant = require("./routes/resturant");
 
 // Enable CORS
 app.use(cors());
 
 app.use("/api/post", post);
+app.use("/api/resturant", resturant);
 
 // homepage endpoint data retrieve from react
 app.get("/api/homepage", (req, res) => {
