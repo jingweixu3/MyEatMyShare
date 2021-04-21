@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import ExploreNearbyPage from "./components/ExploreNearbyPage";
 import LandingPage from "./components/LandingPage";
 import UserHomePage from "./components/UserHomePage";
+import Resturant from "./components/Resturant";
 import Axios from "axios";
 
 const App = () => {
@@ -45,10 +46,6 @@ const App = () => {
     }
   }, []);
 
-  const Resturant = (props) => {
-    console.log(props.match.params.id);
-    return <h1>Hello {props.match.params.id}!</h1>;
-  };
   return (
     <Router>
       <div>
