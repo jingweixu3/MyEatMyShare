@@ -8,7 +8,7 @@ import Axios from "axios";
 
 const App = () => {
   const [posts, setPosts] = useState([]);
-  const [userLoggedIn, setuserLoggedIn] = useState(true);
+  const [userLoggedIn, setuserLoggedIn] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
 
   function setPosition(position) {

@@ -33,18 +33,18 @@ router.get("/nearby", async (req, res) => {
 router.get("/:id", async (req, res) => {
   console.log(req.params.id);
 
-  // fields=name,rating,formatted_phone_number,price_level,geometry
+  // fields=name,formatted_phone_number,price_level,geometry
   let result = await Axios.get(
-    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${req.params.id}&fields=name,rating,formatted_phone_number,geometry&key=AIzaSyDGx9NguhqUd5CeQR8FA12jwLTyFgBekxU`
+    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${req.params.id}&fields=name,geometry&key=AIzaSyDGx9NguhqUd5CeQR8FA12jwLTyFgBekxU`
   );
   console.log(result.data.result);
   const value = result.data.result;
   const resturant = {
     place_id: value.place_id,
-    rating: value.rating,
+    // rating: value.rating,
     name: value.name,
     coordinate: value.geometry.location,
-    phone: value.formatted_phone_number,
+    // phone: value.formatted_phone_number,
     // working_hour: value.opening_hours.weekday_text,
   };
   res.json(resturant);

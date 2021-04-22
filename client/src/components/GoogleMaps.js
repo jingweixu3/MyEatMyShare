@@ -1,7 +1,7 @@
 import React from "react";
 import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
 
-const GoogleMaps = ({ resturant, nearby, coordinate }) => {
+const GoogleMaps = ({ nearby, coordinate }) => {
   const [selected, setSelected] = React.useState(null);
 
   const mapRef = React.useRef(); // save the map ref to move center or zoom accordingly
@@ -14,8 +14,8 @@ const GoogleMaps = ({ resturant, nearby, coordinate }) => {
       {coordinate && (
         <GoogleMap
           id="map"
-          mapContainerStyle={{ height: "75vh", width: "100%" }}
-          zoom={13}
+          mapContainerStyle={{ height: "50vh", width: "50%" }}
+          zoom={12}
           center={{
             lat: coordinate.lat,
             lng: coordinate.lng,

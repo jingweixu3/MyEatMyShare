@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import GoogleMaps from "./GoogleMaps";
+import Navbar from "./Navbar";
 
 const Resturant = (props) => {
   const [resturant, setResturant] = useState(null);
@@ -35,6 +36,7 @@ const Resturant = (props) => {
 
   return (
     <div>
+      <Navbar />
       {resturant && <h1>Hello {resturant.name}!</h1>}
       {resturant && (
         <h5>
