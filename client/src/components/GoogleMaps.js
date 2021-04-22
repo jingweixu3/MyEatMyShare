@@ -11,7 +11,7 @@ const GoogleMaps = ({ resturant, nearby, coordinate }) => {
 
   return (
     <div>
-      {resturant && (
+      {coordinate && (
         <GoogleMap
           id="map"
           mapContainerStyle={{ height: "75vh", width: "100%" }}
@@ -22,18 +22,13 @@ const GoogleMaps = ({ resturant, nearby, coordinate }) => {
           }}
           onLoad={onMapLoad}
         >
-          {/* this resturant marker */}
-          {resturant && (
-            <Marker
-              position={{
-                lat: resturant.coordinate.lat,
-                lng: resturant.coordinate.lng,
-              }}
-              onClick={() => {
-                setSelected(resturant);
-              }}
-            />
-          )}
+          {/* current marker */}
+          <Marker
+            position={{
+              lat: coordinate.lat,
+              lng: coordinate.lng,
+            }}
+          />
           {/* nearby Marker */}
           {nearby.map((resturant) => (
             <Marker
