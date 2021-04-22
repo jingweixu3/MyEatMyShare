@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import GoogleMaps from "./GoogleMaps";
 
 const Resturant = (props) => {
-  const [resturant, setResturant] = useState({});
+  const [resturant, setResturant] = useState(null);
+  const [nearby, setNearby] = useState([]);
 
   useEffect(() => {
     Axios.get(`/api/resturant/${props.match.params.id}`)
@@ -15,15 +17,16 @@ const Resturant = (props) => {
       });
   }, []);
 
-  const onClick = async () => {
+  const FindNearby = async () => {
     try {
       const res = await Axios.get(`/api/resturant/nearby`, {
         params: {
-          // lat: -33.8670522,
-          lng: 151.1957362,
+          lat: resturant.coordinate.lat,
+          lng: resturant.coordinate.lng,
         },
       });
       console.log(res.data);
+      setNearby(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -32,11 +35,27 @@ const Resturant = (props) => {
 
   return (
     <div>
-      <h1>Hello {resturant.name}!</h1>
+      {resturant && <h1>Hello {resturant.name}!</h1>}
+      {resturant && (
+        <h5>
+          {resturant.coordinate.lat}, {resturant.coordinate.lat}
+        </h5>
+      )}
+      {resturant && (
+        <button type="button" className="btn btn-dark" onClick={FindNearby}>
+          FindNearby
+        </button>
+      )}
 
-      <button type="button" className="btn btn-dark" onClick={onClick}>
-        FindNearby
-      </button>
+      <div>
+        {resturant && (
+          <GoogleMaps
+            resturant={resturant}
+            nearby={nearby}
+            coordinate={resturant.coordinate}
+          />
+        )}
+      </div>
     </div>
   );
 };
