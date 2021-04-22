@@ -9,7 +9,7 @@ import Axios from "axios";
 const App = () => {
   const [posts, setPosts] = useState([]);
   const [userLoggedIn, setuserLoggedIn] = useState(true);
-  const [userLocation, setUserLocation] = useState();
+  const [userLocation, setUserLocation] = useState(null);
 
   function setPosition(position) {
     console.log(
@@ -19,8 +19,8 @@ const App = () => {
         position.coords.longitude
     );
     setUserLocation({
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
     });
   }
 
@@ -33,8 +33,9 @@ const App = () => {
   }
 
   useEffect(() => {
+    getLocation();
+
     if (userLoggedIn) {
-      getLocation();
       Axios.get("/api/post/all_posts")
         .then((res) => {
           console.log("dataaaaaaa: ", res.data.posts);
@@ -58,7 +59,10 @@ const App = () => {
         )}
         {!userLoggedIn && <Route exact path="/" component={LandingPage} />}
         {userLoggedIn && (
-          <Route path="/ExploreNearby" component={ExploreNearbyPage} />
+          <Route
+            path="/ExploreNearby"
+            render={() => <ExploreNearbyPage userLocation={userLocation} />}
+          />
         )}
         {userLoggedIn && (
           <Route
