@@ -38,7 +38,7 @@ const Resturant = (props) => {
       {resturant && <h1>Hello {resturant.name}!</h1>}
       {resturant && (
         <h5>
-          {resturant.coordinate.lat}, {resturant.coordinate.lat}
+          {resturant.coordinate.lat}, {resturant.coordinate.lng}
         </h5>
       )}
       {resturant && (
