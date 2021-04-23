@@ -32,20 +32,41 @@ const App = () => {
     }
   }
 
-  useEffect(() => {
-    getLocation();
-
-    if (userLoggedIn) {
-      Axios.get("/api/post/all_posts")
+  function setLoggedIn(userLoggedIn) {
+    Axios.get("/api/current_user")
         .then((res) => {
-          console.log("dataaaaaaa: ", res.data.posts);
-          setPosts(res.data.posts);
+          console.log("dataaaaaaa: ", res.data);
+          //console.log("11111", userLoggedIn);
+          if (res.data.length != 0){
+            setuserLoggedIn(true);
+            //console.log("321");
+          }else{
+            console.log("no data");
+            setuserLoggedIn(false);
+          }
         })
         .catch((err) => {
+          console.log("errrrr");
           console.log(err);
         });
-    }
-  }, []);
+    console.log("userLoggedIn1111111", userLoggedIn);
+  }
+  setLoggedIn(userLoggedIn);
+
+  // useEffect(() => {
+  //   getLocation();
+
+  //   if (userLoggedIn) {
+  //     Axios.get("/api/post/all_posts")
+  //       .then((res) => {
+  //         console.log("dataaaaaaa: ", res.data.posts);
+  //         setPosts(res.data.posts);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }, []);
 
   return (
     <Router>
