@@ -30,8 +30,8 @@ const SearchPlaces = ({ setResturant }) => {
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
             <input
-              className="mt-1 container col-lg-12"
-              {...getInputProps({ placeholder: "Type Resturant" })}
+              className="mt-1 container col-lg-12 "
+              {...getInputProps({ placeholder: "Type place" })}
             />
             <div>
               {loading ? <div>...loading</div> : null}

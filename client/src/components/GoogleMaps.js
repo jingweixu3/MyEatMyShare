@@ -14,7 +14,7 @@ const GoogleMaps = ({ nearby, coordinate }) => {
       {coordinate && (
         <GoogleMap
           id="map"
-          mapContainerStyle={{ height: "50vh", width: "50%" }}
+          mapContainerStyle={{ height: "50vh", width: "100%" }}
           zoom={12}
           center={{
             lat: coordinate.lat,
