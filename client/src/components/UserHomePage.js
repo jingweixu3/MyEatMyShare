@@ -4,10 +4,10 @@ import PostingBody from "./PostingBody";
 import SearchPlaces from "./SearchPlaces";
 import UserHomeJumbotron from "./UserHomeJumbotron";
 
-const UserHomePage = ({ posts, setPosts }) => {
+const UserHomePage = ({userLoggedIn, posts, setPosts }) => {
   return (
     <div>
-      <Navbar />
+      <Navbar userLoggedIn= {userLoggedIn}/>
       <UserHomeJumbotron setPosts={setPosts} />
       <PostingBody posts={posts} />
     </div>
