@@ -53,20 +53,20 @@ const App = () => {
   }
   setLoggedIn(userLoggedIn);
 
-  // useEffect(() => {
-  //   getLocation();
+  useEffect(() => {
+    getLocation();
 
-  //   if (userLoggedIn) {
-  //     Axios.get("/api/post/all_posts")
-  //       .then((res) => {
-  //         console.log("dataaaaaaa: ", res.data.posts);
-  //         setPosts(res.data.posts);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // }, []);
+    if (userLoggedIn) {
+      Axios.get("/api/post/all_posts")
+        .then((res) => {
+          console.log("dataaaaaaa: ", res.data.posts);
+          setPosts(res.data.posts);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
 
   return (
     <Router>
@@ -75,7 +75,7 @@ const App = () => {
           <Route
             exact
             path="/"
-            render={() => <UserHomePage posts={posts} setPosts={setPosts} />}
+            render={() => <UserHomePage userLoggedIn = {userLoggedIn} posts={posts} setPosts={setPosts} />}
           />
         )}
         {!userLoggedIn && <Route exact path="/" component={LandingPage} />}
