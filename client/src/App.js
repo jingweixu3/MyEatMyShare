@@ -86,7 +86,7 @@ const App = () => {
         {userLoggedIn && (
           <Route
             path="/ExploreNearby"
-            render={() => <ExploreNearbyPage userLocation={userLocation} />}
+            render={() => <ExploreNearbyPage userLocation={userLocation} userLoggedIn = {userLoggedIn} userInfo = {userInfo}/>}
           />
         )}
         {userLoggedIn && (

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
 import ExploreNearbyJumbotron from "./ExploreNearbyJumbotron";
 import FindNearby from "./FindNearby";
 import FindResturant from "./FindResturant";
 import Axios from "axios";
 
-const ExploreNearbyPage = ({ userLocation }) => {
+const ExploreNearbyPage = ({ userLocation,userLoggedIn,userInfo }) => {
   const [findNearByButton, setFindNearByButton] = useState(false);
   const [findResturantButton, setFindResturantButton] = useState(false);
   const [nearby, setNearby] = useState([]);
@@ -35,7 +35,7 @@ const ExploreNearbyPage = ({ userLocation }) => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar userLoggedIn={userLoggedIn} userInfo = {userInfo}/>
       <ExploreNearbyJumbotron
         setFindNearByButton={setFindNearByButton}
         setFindResturantButton={setFindResturantButton}

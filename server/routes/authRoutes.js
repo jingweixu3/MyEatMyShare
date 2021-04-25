@@ -25,7 +25,7 @@ module.exports = app =>{
     });
 
     app.get(
-        '/api/current_user', requireLogin, (req, res) =>{
+        '/api/current_user', (req, res) =>{
             res.send(req.user);
             //为什么这里要加
     });
