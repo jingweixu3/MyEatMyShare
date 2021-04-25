@@ -51,9 +51,11 @@ const App = () => {
       });
     console.log("userLoggedIn1111111", userLoggedIn);
   }
-  setLoggedIn(userLoggedIn);
+  // setLoggedIn(userLoggedIn);
 
   useEffect(() => {
+    setLoggedIn(userLoggedIn);
+
     getLocation();
 
     if (userLoggedIn) {

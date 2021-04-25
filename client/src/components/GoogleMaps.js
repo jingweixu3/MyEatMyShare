@@ -47,7 +47,7 @@ const GoogleMaps = ({ nearby, coordinate }) => {
             <InfoWindow
               position={{
                 lat: selected.coordinate.lat,
-                lng: selected.coordinate.lat,
+                lng: selected.coordinate.lng,
               }}
               onCloseClick={() => {
                 setSelected(null);
