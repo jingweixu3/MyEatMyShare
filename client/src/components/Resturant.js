@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import GoogleMaps from "./GoogleMaps";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
 
 const Resturant = (props) => {
   const [resturant, setResturant] = useState(null);

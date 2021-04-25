@@ -4,12 +4,14 @@ import ExploreNearbyPage from "./components/ExploreNearbyPage";
 import LandingPage from "./components/LandingPage";
 import UserHomePage from "./components/UserHomePage";
 import Resturant from "./components/Resturant";
+import Profile from "./components/Profile/Profile";
 import Axios from "axios";
 
 const App = () => {
   const [posts, setPosts] = useState([]);
   const [userLoggedIn, setuserLoggedIn] = useState(true);
   const [userLocation, setUserLocation] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
 
   function setPosition(position) {
     console.log(
@@ -34,28 +36,28 @@ const App = () => {
 
   function setLoggedIn(userLoggedIn) {
     Axios.get("/api/current_user")
-      .then((res) => {
-        console.log("dataaaaaaa: ", res.data);
-        //console.log("11111", userLoggedIn);
-        if (res.data.length != 0) {
-          setuserLoggedIn(true);
-          //console.log("321");
-        } else {
-          console.log("no data");
-          setuserLoggedIn(false);
-        }
-      })
-      .catch((err) => {
-        console.log("errrrr");
-        console.log(err);
-      });
+        .then((res) => {
+          console.log("dataaaaaaa: ", res.data);
+          //console.log("11111", userLoggedIn);
+          if (res.data.length != 0){
+            setuserLoggedIn(true);
+            setUserInfo(res.data);
+            console.log("userrrrinfoooo", userInfo);
+          }else{
+            console.log("no data");
+            setuserLoggedIn(false);
+          }
+        })
+        .catch((err) => {
+          console.log("errrrr");
+          console.log(err);
+        });
     console.log("userLoggedIn1111111", userLoggedIn);
   }
   // setLoggedIn(userLoggedIn);
 
   useEffect(() => {
     setLoggedIn(userLoggedIn);
-
     getLocation();
 
     if (userLoggedIn) {
@@ -77,20 +79,14 @@ const App = () => {
           <Route
             exact
             path="/"
-            render={() => (
-              <UserHomePage
-                userLoggedIn={userLoggedIn}
-                posts={posts}
-                setPosts={setPosts}
-              />
-            )}
+            render={() => <UserHomePage userLoggedIn = {userLoggedIn} userInfo = {userInfo} posts={posts} setPosts={setPosts} />}
           />
         )}
         {!userLoggedIn && <Route exact path="/" component={LandingPage} />}
         {userLoggedIn && (
           <Route
             path="/ExploreNearby"
-            render={() => <ExploreNearbyPage userLocation={userLocation} />}
+            render={() => <ExploreNearbyPage userLocation={userLocation} userLoggedIn = {userLoggedIn} userInfo = {userInfo}/>}
           />
         )}
         {userLoggedIn && (
@@ -98,6 +94,12 @@ const App = () => {
             path="/Resturant/:id"
             render={(props) => <Resturant {...props} />}
           />
+        )}
+        {userLoggedIn && (
+          <Route
+           path="/profile"
+           render={()=><Profile userInfo={userInfo} />}
+           />
         )}
       </div>
     </Router>
