@@ -27,7 +27,6 @@ const Navbar = ({userLoggedIn, userInfo}) => {
             <Link className="nav-link" to="/ExploreNearby">
               ExploreNearBy <span className="sr-only">(current)</span>
             </Link>
-
           </li>
           
           
