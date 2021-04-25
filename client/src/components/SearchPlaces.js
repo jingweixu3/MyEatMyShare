@@ -5,6 +5,7 @@ import PlacesAutocomplete, {
 
 const SearchPlaces = ({ setResturant }) => {
   const [address, setAddress] = useState("");
+
   const handleSelect = async (value) => {
     if (value !== "") {
       const results = await geocodeByAddress(value);
@@ -16,9 +17,7 @@ const SearchPlaces = ({ setResturant }) => {
 
   const onChange = (value) => {
     setAddress(value);
-    if (value === "") {
-      setResturant("");
-    }
+    setResturant("");
   };
   return (
     <div>

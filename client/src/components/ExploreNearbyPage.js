@@ -9,6 +9,7 @@ const ExploreNearbyPage = ({ userLocation }) => {
   const [findNearByButton, setFindNearByButton] = useState(false);
   const [findResturantButton, setFindResturantButton] = useState(false);
   const [nearby, setNearby] = useState([]);
+  const [placeSearchResult, setplaceSearchResult] = useState(null);
 
   useEffect(() => {
     Nearby_resturant();
@@ -38,12 +39,17 @@ const ExploreNearbyPage = ({ userLocation }) => {
       <ExploreNearbyJumbotron
         setFindNearByButton={setFindNearByButton}
         setFindResturantButton={setFindResturantButton}
+        findResturantButton={findResturantButton}
+        findNearByButton={findNearByButton}
+        setplaceSearchResult={setplaceSearchResult}
       />
       <div className="container mt-5">
         {findNearByButton && (
           <FindNearby userLocation={userLocation} nearby={nearby} />
         )}
-        {findResturantButton && <FindResturant />}
+        {placeSearchResult && (
+          <FindResturant placeSearchResult={placeSearchResult} />
+        )}
       </div>
     </div>
   );

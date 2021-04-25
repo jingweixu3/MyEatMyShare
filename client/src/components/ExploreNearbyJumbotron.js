@@ -1,20 +1,44 @@
-import React from "react";
-import FindResturant from "./FindResturant";
+import React, { useState } from "react";
+import SearchPlaces from "./SearchPlaces";
+import Axios from "axios";
 
 const ExploreNearbyJumbotron = ({
-  findNearByButton,
   setFindNearByButton,
-  findResturantButton,
   setFindResturantButton,
+  findResturantButton,
+  findNearByButton,
+  setplaceSearchResult,
 }) => {
+  const [place, setPlace] = useState("");
+  const [err, setError] = useState(null);
+
   const onClickNearBy = (e) => {
-    setFindNearByButton(true);
+    setFindNearByButton(!findNearByButton);
     setFindResturantButton(false);
   };
 
-  const onClickSearch = (e) => {
-    setFindResturantButton(true);
+  const onClickFind = (e) => {
+    setFindResturantButton(!findResturantButton);
     setFindNearByButton(false);
+  };
+
+  const onClickSearch = (e) => {
+    if (!place) {
+      console.log("Please selected a valid place!");
+      setError("Please selected a valid place!");
+      return;
+    }
+    console.log("Search", { place });
+
+    // return the result
+    Axios.get(`/api/resturant/${place}`)
+      .then((res) => {
+        console.log("resturant dataaaaaaa: ", res.data);
+        setplaceSearchResult(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -27,14 +51,25 @@ const ExploreNearbyJumbotron = ({
         >
           FindNearby
         </button>
-
         <button
           type="button"
           className="mb-2 btn btn-primary mr-2 btn-md"
-          onClick={onClickSearch}
+          onClick={onClickFind}
         >
-          Search Resturant
+          Find Resturant
         </button>
+        {findResturantButton && (
+          <div className="container mt-4 col-lg-4">
+            <SearchPlaces setResturant={setPlace} />
+            <button
+              type="button"
+              className="mt-4 mb-2 btn btn-primary mr-2 btn-md"
+              onClick={onClickSearch}
+            >
+              Search
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
