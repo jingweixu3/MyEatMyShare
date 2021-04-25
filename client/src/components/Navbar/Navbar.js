@@ -42,24 +42,24 @@ const Navbar = ({userLoggedIn, userInfo}) => {
           </li>
         </ul>
 
-        <ul class="nav-nav" style={{float:"right", listStyleType:"none"}}> 
-        <li class="nav-item" >
+        <ul className="nav-nav" style={{float:"right", listStyleType:"none"}}> 
+        <li className="nav-item" >
           <div id="imgDiv" style ={{paddingTop: "10px", marginRight: "-5px"}}>
-            {userLoggedIn && userInfo != null && userInfo.avatar == "" && <a class="nav-link" href="/profile">
+            {userLoggedIn && userInfo != null && userInfo.avatar == "" && <a className="nav-link" href="/profile">
               <img src="https://www.shareicon.net/data/40x40/2016/08/05/806962_user_512x512.png" />
             </a>}
           </div>
           <div id="imgDiv" style ={{paddingTop: "10px", marginRight: "-5px"}}>
-            {userLoggedIn && userInfo != null && userInfo.avatar != "" && <a class="nav-link" href="/profile">
+            {userLoggedIn && userInfo != null && userInfo.avatar != "" && <a className="nav-link" href="/profile">
               <img src= {userInfo.avatar} />
             </a>}
           </div>
         </li>     
         </ul>
-        <ul class="nav-nav " style={{listStyleType:"none", paddingTop: "10px"}}>
+        <ul className="nav-nav " style={{listStyleType:"none", paddingTop: "10px"}}>
         <li className="nav-item active">
-            {!userLoggedIn && <a class="nav-link" href="/auth/google">Login with google</a>}
-            {userLoggedIn && <a class="nav-link" href="/api/logout">Logout</a>}
+            {!userLoggedIn && <a className="nav-link" href="/auth/google">Login with google</a>}
+            {userLoggedIn && <a className="nav-link" href="/api/logout">Logout</a>}
           </li>
         </ul>
       </div>  
