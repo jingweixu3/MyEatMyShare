@@ -32,6 +32,27 @@ const App = () => {
     }
   }
 
+  function setLoggedIn(userLoggedIn) {
+    Axios.get("/api/current_user")
+      .then((res) => {
+        console.log("dataaaaaaa: ", res.data);
+        //console.log("11111", userLoggedIn);
+        if (res.data.length != 0) {
+          setuserLoggedIn(true);
+          //console.log("321");
+        } else {
+          console.log("no data");
+          setuserLoggedIn(false);
+        }
+      })
+      .catch((err) => {
+        console.log("errrrr");
+        console.log(err);
+      });
+    console.log("userLoggedIn1111111", userLoggedIn);
+  }
+  setLoggedIn(userLoggedIn);
+
   useEffect(() => {
     getLocation();
 
@@ -45,7 +66,7 @@ const App = () => {
           console.log(err);
         });
     }
-  }, []);
+  }, [userLoggedIn]);
 
   return (
     <Router>
@@ -54,7 +75,13 @@ const App = () => {
           <Route
             exact
             path="/"
-            render={() => <UserHomePage posts={posts} setPosts={setPosts} />}
+            render={() => (
+              <UserHomePage
+                userLoggedIn={userLoggedIn}
+                posts={posts}
+                setPosts={setPosts}
+              />
+            )}
           />
         )}
         {!userLoggedIn && <Route exact path="/" component={LandingPage} />}

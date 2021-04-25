@@ -1,8 +1,25 @@
 const express = require("express");
+const keys = require('./config/keys');
+const cookieSession = require('cookie-session');
 const path = require("path");
 const cors = require("cors");
+const passport = require('passport');
+const bodyParser = require('body-parser');
+
+require('./services/passport');
 
 const app = express();
+
+app.use(bodyParser.json());
+
+app.use(
+    cookieSession({
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      keys: [keys.cookieKey]
+    })
+  );
+app.use(passport.initialize());
+app.use(passport.session());
 
 global.XMLHttpRequest = require("xhr2");
 
@@ -15,6 +32,7 @@ app.use(cors());
 
 app.use("/api/post", post);
 app.use("/api/resturant", resturant);
+require('./routes/authRoutes')(app);
 
 // homepage endpoint data retrieve from react
 app.get("/api/homepage", (req, res) => {
