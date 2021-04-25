@@ -1,15 +1,17 @@
 const { uploadPost, getAllPosts } = require("../firebase/useStorage");
+const requireLogin = require('../middlewares/requireLogin');
 
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const upload = multer();
 
+
 router.get("/all_posts", async (req, res) => {
   res.json({ posts: await getAllPosts("resturant_posts") });
 });
 
-router.post("/upload", upload.single("file"), async function (req, res, next) {
+router.post("/upload", requireLogin, upload.single("file"), async function (req, res, next) {
   const { file, body } = req;
 
   if (

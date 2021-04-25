@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import GoogleMaps from "./GoogleMaps";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
 import Axios from "axios";
 
 const ExploreNearbyPage = ({ userLocation }) => {

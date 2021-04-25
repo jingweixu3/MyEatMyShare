@@ -1,52 +1,3 @@
-// const mongoose = require('mongoose');
-
-// const { Schema } = mongoose;
-
-
-// // const userSchema = new Schema ({
-// //     googleId: String,
-// //     firstName:String,
-// //     lastName:String,
-// //     email:String
-// // });
-
-// const UserSchema = new Schema({
-//     googleId: {
-//         type:String,
-//         unique:true
-//     },
-//     firstName: {
-//         type: String,
-//         trim: true,
-//     },
-//     lastName: {
-//         type: String,
-//         trim: true,
-//     },
-//     email: {
-//         type: String,
-//         unique: true,
-//     },
-//     friends: [{
-//         type: Schema.Types.ObjectId,
-//         ref: 'User'
-//     }],
-//     // blogs: [{
-//     //     type: Schema.Types.ObjectId,
-//     //     ref: 'blogs'
-//     // }]
-// });
-
-// UserSchema.virtual('friendCount').get(function () {
-//     return this.friends.length
-// })
-
-
-
-// mongoose.model('users', UserSchema);
-
-//var firebase = require('firebase');
-
 const { projectStorage,projectFirestore, timestamp } = require("../config");
 
 async function insertUser(profile) {
@@ -67,6 +18,8 @@ async function insertUser(profile) {
     let email = profile.emails[0].value;
     let friend = [];
     let post = [];
+    let follow = [];
+    let follower = [];
     let avatar = "";
 
     //console.log("firstname", firstName, "lastName", lastName, "emial", email);
@@ -80,9 +33,10 @@ async function insertUser(profile) {
       firstName,
       lastName,
       email,
-      friend,
       post,
-      avatar
+      avatar,
+      follow,
+      follower
     });
     console.log("insert google id", googleId);
     const user = await getUser(googleId);

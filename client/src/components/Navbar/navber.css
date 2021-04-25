@@ -1,0 +1,14 @@
+/* #navbarTogglerDemo01 {
+    height:55px;
+} */
+
+#imgDiv img {
+    width: 35px;
+    height: 35px;
+    overflow: hidden;
+    border-radius:50%;
+    background-position: center;
+    background-size: cover;
+    background-color: brown;
+    margin-top: -25px;
+  }
