@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = ({userLoggedIn}) => {
+const Navbar = ({ userLoggedIn }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <button
@@ -24,14 +24,25 @@ const Navbar = ({userLoggedIn}) => {
             <Link className="nav-link" to="/ExploreNearby">
               ExploreNearBy <span className="sr-only">(current)</span>
             </Link>
-
           </li>
           <li className="nav-item active">
-            {!userLoggedIn && <a class="nav-link" href="/auth/google">Login with google</a>}
-            {userLoggedIn && <a class="nav-link" href="/api/logout">Logout</a>}
+            {!userLoggedIn && (
+              <a className="nav-link" href="/auth/google">
+                Login with google
+              </a>
+            )}
+            {userLoggedIn && (
+              <a className="nav-link" href="/api/logout">
+                Logout
+              </a>
+            )}
           </li>
           <li className="nav-item active">
-            {userLoggedIn && <a class="nav-link" href="/api/current_user">My acoount</a>}
+            {userLoggedIn && (
+              <a className="nav-link" href="/api/current_user">
+                My acoount
+              </a>
+            )}
           </li>
           <li className="nav-item">
             <a

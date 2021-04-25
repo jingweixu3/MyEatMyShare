@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
-import GoogleMaps from "./GoogleMaps";
 import Navbar from "./Navbar";
+import ExploreNearbyJumbotron from "./ExploreNearbyJumbotron";
+import FindNearby from "./FindNearby";
+import FindResturant from "./FindResturant";
 import Axios from "axios";
 
 const ExploreNearbyPage = ({ userLocation }) => {
+  const [findNearByButton, setFindNearByButton] = useState(false);
+  const [findResturantButton, setFindResturantButton] = useState(false);
   const [nearby, setNearby] = useState([]);
+  const [placeSearchResult, setplaceSearchResult] = useState(null);
 
   useEffect(() => {
-    FindNearby();
+    Nearby_resturant();
   }, [userLocation]);
 
-  const FindNearby = async () => {
+  const Nearby_resturant = async () => {
     try {
       console.log("explore page:", userLocation);
       if (userLocation) {
@@ -31,7 +36,21 @@ const ExploreNearbyPage = ({ userLocation }) => {
   return (
     <div>
       <Navbar />
-      <GoogleMaps resturant={null} nearby={nearby} coordinate={userLocation} />
+      <ExploreNearbyJumbotron
+        setFindNearByButton={setFindNearByButton}
+        setFindResturantButton={setFindResturantButton}
+        findResturantButton={findResturantButton}
+        findNearByButton={findNearByButton}
+        setplaceSearchResult={setplaceSearchResult}
+      />
+      <div className="container mt-5">
+        {findNearByButton && (
+          <FindNearby userLocation={userLocation} nearby={nearby} />
+        )}
+        {placeSearchResult && (
+          <FindResturant placeSearchResult={placeSearchResult} />
+        )}
+      </div>
     </div>
   );
 };
