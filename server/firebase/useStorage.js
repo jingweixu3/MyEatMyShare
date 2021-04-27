@@ -15,6 +15,17 @@ async function getAllPosts(collection) {
   return documents;
 }
 
+async function uploadComment(body) {
+  let { comment, username, post_id } = { ...body };
+  console.log(comment, username, post_id);
+  const collectionRef = projectFirestore.collection("post_comments");
+  await collectionRef.add({
+    comment,
+    username,
+    post_id,
+  });
+}
+
 async function uploadPost(file, body) {
   const post_uuid = uuid.v4();
   const fileName = post_uuid + "_" + file.originalname;
@@ -51,4 +62,4 @@ async function uploadPost(file, body) {
   return post_uuid;
 }
 
-module.exports = { uploadPost, getAllPosts };
+module.exports = { uploadPost, getAllPosts, uploadComment };

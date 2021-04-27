@@ -1,7 +1,7 @@
 import React from "react";
 import PostGrid from "./PostGrid";
 
-const PostingBody = ({ posts }) => {
+const PostingBody = ({ posts, userInfo }) => {
   return (
     <div>
       {posts && (
@@ -9,7 +9,7 @@ const PostingBody = ({ posts }) => {
           <div className="container">
             <div className="row">
               {posts.map((post) => (
-                <PostGrid key={post.id} post={post} />
+                <PostGrid key={post.id} post={post} userInfo={userInfo} />
               ))}
             </div>
           </div>
