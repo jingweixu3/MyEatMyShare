@@ -20,6 +20,18 @@ async function getAllPosts(collection) {
   return documents;
 }
 
+async function getComments(collection, post_ID) {
+  let documents = [];
+  const snapshot = await projectFirestore
+    .collection(collection)
+    .where("post_id", "==", post_ID)
+    .get();
+
+  snapshot.forEach((doc) => {
+    documents.push({ ...doc.data(), id: doc.id });
+  });
+  return documents;
+}
 async function uploadComment(body) {
   let { comment, username, post_id } = { ...body };
   console.log(comment, username, post_id);
@@ -76,4 +88,4 @@ async function uploadPost(file, body) {
   return post_uuid;
 }
 
-module.exports = { uploadPost, getAllPosts, uploadComment };
+module.exports = { uploadPost, getAllPosts, uploadComment, getComments };

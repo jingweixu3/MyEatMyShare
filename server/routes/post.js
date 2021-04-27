@@ -2,6 +2,7 @@ const {
   uploadPost,
   getAllPosts,
   uploadComment,
+  getComments,
 } = require("../firebase/useStorage");
 // const requireLogin = require("../middlewares/requireLogin");
 
@@ -24,8 +25,9 @@ router.post("/addComment", async (req, res) => {
 router.get("/:id/comments", async (req, res) => {
   console.log(req.params.id);
   const post_id = req.params.id;
-  const comments = awaitgetComments("post_comments", post_id);
-  res.json({ commenst: comments });
+  const comments = await getComments("post_comments", post_id);
+  console.log(comments);
+  res.json({ comments });
 });
 router.post(
   "/upload",

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -22,6 +21,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
+    margin: "0 auto",
   },
   media: {
     height: 0,
@@ -47,8 +47,21 @@ const PostGrid = ({ post, userInfo }) => {
   const classes = useStyles();
   const [addcomment, setAddComment] = useState("");
   const [expanded, setExpanded] = React.useState(false);
+  const [comments, setComments] = useState([]);
 
+  useEffect(() => {}, []);
   const handleExpandClick = () => {
+    if (!expanded) {
+      Axios.get(`/api/post/${post.id}/comments`)
+        .then((res) => {
+          console.log("comments: ", res.data);
+          setComments(res.data.comments);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
     setExpanded(!expanded);
   };
   const TypeComment = (e) => {
@@ -82,7 +95,7 @@ const PostGrid = ({ post, userInfo }) => {
   };
 
   return (
-    <div className="col-md-6 col-lg-4 mb-4 mt-4" style={{ margin: "0 auto" }}>
+    <div className="mb-4 mt-4">
       <Card className={classes.root}>
         <CardHeader
           avatar={
@@ -132,7 +145,12 @@ const PostGrid = ({ post, userInfo }) => {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography paragraph>Method:</Typography>
+            {comments &&
+              comments.map((each) => (
+                <p key={each.id}>
+                  <strong>{each.username}:</strong> {each.comment}
+                </p>
+              ))}
           </CardContent>
         </Collapse>
       </Card>
