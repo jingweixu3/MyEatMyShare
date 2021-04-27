@@ -18,9 +18,15 @@ router.post("/addComment", async (req, res) => {
   console.log(req.body);
   comment_info = await uploadComment(req.body);
 
-  res.json("ok");
+  res.json({ msg: "Successfully Added Comment!" });
 });
 
+router.get("/:id/comments", async (req, res) => {
+  console.log(req.params.id);
+  const post_id = req.params.id;
+  const comments = awaitgetComments("post_comments", post_id);
+  res.json({ commenst: comments });
+});
 router.post(
   "/upload",
   // requireLogin,

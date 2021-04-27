@@ -23,5 +23,6 @@ firebase.initializeApp(firebaseConfig);
 const projectStorage = firebase.storage();
 const projectFirestore = firebase.firestore();
 const timestamp = firebase.firestore.FieldValue.serverTimestamp;
+const filedValue = firebase.firestore.FieldValue;
 
-module.exports = { projectStorage, projectFirestore, timestamp };
+module.exports = { projectStorage, projectFirestore, timestamp, filedValue };

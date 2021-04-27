@@ -1,5 +1,10 @@
 const uuid = require("uuid");
-const { projectStorage, projectFirestore, timestamp } = require("./config");
+const {
+  projectStorage,
+  projectFirestore,
+  timestamp,
+  filedValue,
+} = require("./config");
 const Axios = require("axios");
 
 async function getAllPosts(collection) {
@@ -19,10 +24,18 @@ async function uploadComment(body) {
   let { comment, username, post_id } = { ...body };
   console.log(comment, username, post_id);
   const collectionRef = projectFirestore.collection("post_comments");
-  await collectionRef.add({
+  const res = await collectionRef.add({
     comment,
     username,
     post_id,
+    createdAt: timestamp(),
+  });
+
+  const comment_id = res.id;
+  const postRef = projectFirestore.collection("resturant_posts").doc(post_id);
+
+  const unionRes = await postRef.update({
+    comments: filedValue.arrayUnion(comment_id),
   });
 }
 
@@ -57,6 +70,7 @@ async function uploadPost(file, body) {
     resturant_id,
     resturant_name,
     content,
+    comments: [],
   });
 
   return post_uuid;
