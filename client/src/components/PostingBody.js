@@ -3,16 +3,12 @@ import PostGrid from "./PostGrid";
 
 const PostingBody = ({ posts, userInfo }) => {
   return (
-    <div>
+    <div className="container">
       {posts && (
-        <div className="album py-4 bg-light">
-          <div className="container">
-            <div className="row">
-              {posts.map((post) => (
-                <PostGrid key={post.id} post={post} userInfo={userInfo} />
-              ))}
-            </div>
-          </div>
+        <div className="container mb-4">
+          {posts.map((post) => (
+            <PostGrid key={post.id} post={post} userInfo={userInfo} />
+          ))}
         </div>
       )}
     </div>
