@@ -7,6 +7,21 @@ const {
 } = require("./config");
 const Axios = require("axios");
 
+async function addLikes(user_id, post_id) {
+  const postRef = projectFirestore.collection("resturant_posts").doc(post_id);
+
+  const unionRes = await postRef.update({
+    likes: filedValue.arrayUnion(user_id),
+  });
+}
+
+async function deleteLikes(user_id, post_id) {
+  const postRef = projectFirestore.collection("resturant_posts").doc(post_id);
+  const unionRes = await postRef.update({
+    likes: filedValue.arrayRemove(user_id),
+  });
+}
+
 async function getAllPosts(collection) {
   let documents = [];
   const snapshot = await projectFirestore
@@ -83,9 +98,17 @@ async function uploadPost(file, body) {
     resturant_name,
     content,
     comments: [],
+    likes: [],
   });
 
   return post_uuid;
 }
 
-module.exports = { uploadPost, getAllPosts, uploadComment, getComments };
+module.exports = {
+  uploadPost,
+  getAllPosts,
+  uploadComment,
+  getComments,
+  addLikes,
+  deleteLikes,
+};

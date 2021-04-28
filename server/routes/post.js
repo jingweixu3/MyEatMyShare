@@ -3,6 +3,8 @@ const {
   getAllPosts,
   uploadComment,
   getComments,
+  addLikes,
+  deleteLikes,
 } = require("../firebase/useStorage");
 // const requireLogin = require("../middlewares/requireLogin");
 
@@ -13,6 +15,18 @@ const upload = multer();
 
 router.get("/all_posts", async (req, res) => {
   res.json({ posts: await getAllPosts("resturant_posts") });
+});
+
+router.post("/addLikes", async (req, res) => {
+  const { user_id, post_id } = { ...req.body };
+  await addLikes(user_id, post_id);
+  res.json("OK");
+});
+
+router.delete("/deleteLikes", async (req, res) => {
+  const { user_id, post_id } = { ...req.body };
+  await deleteLikes(user_id, post_id);
+  res.json("OK DELETE LIKES");
 });
 
 router.post("/addComment", async (req, res) => {

@@ -53,8 +53,15 @@ const PostGrid = ({ post, userInfo }) => {
   const [addcomment, setAddComment] = useState("");
   const [expanded, setExpanded] = React.useState(false);
   const [comments, setComments] = useState([]);
+  const [likes, setLikes] = useState(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const likesSet = new Set(post.likes);
+    if (likesSet.has(userInfo.id)) {
+      setLikes(true);
+    }
+  }, [post]);
+
   const handleExpandClick = () => {
     if (!expanded) {
       Axios.get(`/api/post/${post.id}/comments`)
@@ -69,8 +76,40 @@ const PostGrid = ({ post, userInfo }) => {
 
     setExpanded(!expanded);
   };
+
   const TypeComment = (e) => {
     setAddComment(e.target.value);
+  };
+
+  const clickLikes = (e) => {
+    let data = {
+      user_id: userInfo.id,
+      post_id: post.id,
+    };
+    if (likes) {
+      setLikes(false);
+      console.log("unlike!");
+      // delete like from like array in backend
+      Axios.delete("/api/post/deleteLikes", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      }).catch((err) => {
+        console.log(err);
+      });
+    } else {
+      setLikes(true);
+      console.log("like!");
+      // add user to the like array in the backend
+      Axios.post("/api/post/addLikes", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const SendComment = (e) => {
@@ -134,17 +173,15 @@ const PostGrid = ({ post, userInfo }) => {
           <TextField
             className="mt-0"
             value={addcomment}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SendIcon onClick={SendComment} />
-                </InputAdornment>
-              ),
-            }}
             onChange={TypeComment}
+            label="Add Comment"
           />
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
+          <IconButton aria-label="add to favorites" onClick={SendComment}>
+            <SendIcon />
+          </IconButton>
+          <IconButton aria-label="add to favorites" onClick={clickLikes}>
+            {likes && <FavoriteIcon style={{ fill: "#fb3958" }} />}
+            {!likes && <FavoriteIcon />}
           </IconButton>
           <IconButton
             className={clsx(classes.expand, {
