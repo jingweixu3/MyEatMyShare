@@ -14,9 +14,11 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import TextField from "@material-ui/core/TextField";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
+import SendIcon from "@material-ui/icons/Send";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: red[500],
+  },
+  send: {
+    margin: theme.spacing(1),
   },
 }));
 
@@ -86,8 +91,8 @@ const PostGrid = ({ post, userInfo }) => {
     })
       .then((res) => {
         setAddComment("");
-
         console.log(res);
+        setComments([data, ...comments]);
       })
       .catch((err) => {
         console.log(err);
@@ -125,12 +130,21 @@ const PostGrid = ({ post, userInfo }) => {
             {post.content}
           </Typography>
         </CardContent>
-        <CardActions disableSpacing>
+        <CardActions>
+          <TextField
+            className="mt-0"
+            value={addcomment}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SendIcon onClick={SendComment} />
+                </InputAdornment>
+              ),
+            }}
+            onChange={TypeComment}
+          />
           <IconButton aria-label="add to favorites">
             <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
           </IconButton>
           <IconButton
             className={clsx(classes.expand, {
@@ -140,14 +154,14 @@ const PostGrid = ({ post, userInfo }) => {
             aria-expanded={expanded}
             aria-label="show more"
           >
-            <ExpandMoreIcon />
+            <ChatBubbleIcon />
           </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
             {comments &&
-              comments.map((each) => (
-                <p key={each.id}>
+              comments.map((each, index) => (
+                <p key={index} className="mb-0">
                   <strong>{each.username}:</strong> {each.comment}
                 </p>
               ))}
