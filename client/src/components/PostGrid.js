@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
+
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -14,11 +15,12 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import SendIcon from "@material-ui/icons/Send";
+import Alert from "@material-ui/lab/Alert";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +56,7 @@ const PostGrid = ({ post, userInfo }) => {
   const [expanded, setExpanded] = React.useState(false);
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState(false);
+  const [commentErr, setCommentErr] = useState(false);
 
   useEffect(() => {
     const likesSet = new Set(post.likes);
@@ -115,8 +118,10 @@ const PostGrid = ({ post, userInfo }) => {
   const SendComment = (e) => {
     if (addcomment === "") {
       console.log("please type comment before send! ");
+      setCommentErr(true);
       return;
     }
+    setCommentErr(false);
     console.log("send");
     let data = {
       username: userInfo.firstName,
@@ -140,6 +145,16 @@ const PostGrid = ({ post, userInfo }) => {
 
   return (
     <div className="mb-4 mt-4">
+      {commentErr && (
+        <Alert
+          severity="warning"
+          onClose={() => {
+            setCommentErr(false);
+          }}
+        >
+          This is a error alert — cannot an send empty comment!
+        </Alert>
+      )}
       <Card className={classes.root}>
         <CardHeader
           avatar={
