@@ -1,12 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-<link href="navbar.css" rel="stylesheet" type="text/css" />
+<link href="navbar.css" rel="stylesheet" type="text/css" />;
 
-const Navbar = ({userLoggedIn, userInfo}) => {
-
+const Navbar = ({ userLoggedIn, userInfo }) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark " style = {{height: "55px"}}>
+    <nav
+      className="navbar navbar-expand-lg navbar-dark bg-dark "
+      style={{ height: "55px" }}
+    >
       <button
         className="navbar-toggler"
         type="button"
@@ -28,8 +30,7 @@ const Navbar = ({userLoggedIn, userInfo}) => {
               ExploreNearBy <span className="sr-only">(current)</span>
             </Link>
           </li>
-          
-          
+
           <li className="nav-item">
             <a
               className="nav-link disabled"
@@ -42,27 +43,51 @@ const Navbar = ({userLoggedIn, userInfo}) => {
           </li>
         </ul>
 
-        <ul className="nav-nav" style={{float:"right", listStyleType:"none"}}> 
-        <li className="nav-item" >
-          <div id="imgDiv" style ={{paddingTop: "10px", marginRight: "-5px"}}>
-            {userLoggedIn && userInfo != null && userInfo.avatar == "" && <a className="nav-link" href="/profile">
-              <img src="https://www.shareicon.net/data/40x40/2016/08/05/806962_user_512x512.png" />
-            </a>}
-          </div>
-          <div id="imgDiv" style ={{paddingTop: "10px", marginRight: "-5px"}}>
-            {userLoggedIn && userInfo != null && userInfo.avatar != "" && <a className="nav-link" href="/profile">
-              <img src= {userInfo.avatar} />
-            </a>}
-          </div>
-        </li>     
-        </ul>
-        <ul className="nav-nav " style={{listStyleType:"none", paddingTop: "10px"}}>
-        <li className="nav-item active">
-            {!userLoggedIn && <a className="nav-link" href="/auth/google">Login with google</a>}
-            {userLoggedIn && <a className="nav-link" href="/api/logout">Logout</a>}
+        <ul
+          className="nav-nav"
+          style={{ float: "right", listStyleType: "none" }}
+        >
+          <li className="nav-item">
+            <div
+              id="imgDiv"
+              style={{ paddingTop: "10px", marginRight: "-5px" }}
+            >
+              {userLoggedIn && userInfo !== null && userInfo.avatar === "" && (
+                <a className="nav-link" href="/profile">
+                  <img src="https://www.shareicon.net/data/40x40/2016/08/05/806962_user_512x512.png" />
+                </a>
+              )}
+            </div>
+            <div
+              id="imgDiv"
+              style={{ paddingTop: "10px", marginRight: "-5px" }}
+            >
+              {userLoggedIn && userInfo !== null && userInfo.avatar !== "" && (
+                <a className="nav-link" href="/profile">
+                  <img src={userInfo.avatar} />
+                </a>
+              )}
+            </div>
           </li>
         </ul>
-      </div>  
+        <ul
+          className="nav-nav "
+          style={{ listStyleType: "none", paddingTop: "10px" }}
+        >
+          <li className="nav-item active">
+            {!userLoggedIn && (
+              <a className="nav-link" href="/auth/google">
+                Login with google
+              </a>
+            )}
+            {userLoggedIn && (
+              <a className="nav-link" href="/api/logout">
+                Logout
+              </a>
+            )}
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 };

@@ -20,7 +20,6 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import SendIcon from "@material-ui/icons/Send";
 import Alert from "@material-ui/lab/Alert";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +62,7 @@ const PostGrid = ({ post, userInfo }) => {
     if (likesSet.has(userInfo.id)) {
       setLikes(true);
     }
-  }, [post]);
+  }, [userInfo, post]);
 
   const handleExpandClick = () => {
     if (!expanded) {
