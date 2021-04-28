@@ -1,6 +1,26 @@
 const uuid = require("uuid");
-const { projectStorage, projectFirestore, timestamp } = require("./config");
+const {
+  projectStorage,
+  projectFirestore,
+  timestamp,
+  filedValue,
+} = require("./config");
 const Axios = require("axios");
+
+async function addLikes(user_id, post_id) {
+  const postRef = projectFirestore.collection("resturant_posts").doc(post_id);
+
+  const unionRes = await postRef.update({
+    likes: filedValue.arrayUnion(user_id),
+  });
+}
+
+async function deleteLikes(user_id, post_id) {
+  const postRef = projectFirestore.collection("resturant_posts").doc(post_id);
+  const unionRes = await postRef.update({
+    likes: filedValue.arrayRemove(user_id),
+  });
+}
 
 async function getAllPosts(collection) {
   let documents = [];
@@ -13,6 +33,37 @@ async function getAllPosts(collection) {
     documents.push({ ...doc.data(), id: doc.id });
   });
   return documents;
+}
+
+async function getComments(collection, post_ID) {
+  let documents = [];
+  const snapshot = await projectFirestore
+    .collection(collection)
+    .where("post_id", "==", post_ID)
+    .get();
+
+  snapshot.forEach((doc) => {
+    documents.push({ ...doc.data(), id: doc.id });
+  });
+  return documents;
+}
+async function uploadComment(body) {
+  let { comment, username, post_id } = { ...body };
+  console.log(comment, username, post_id);
+  const collectionRef = projectFirestore.collection("post_comments");
+  const res = await collectionRef.add({
+    comment,
+    username,
+    post_id,
+    createdAt: timestamp(),
+  });
+
+  const comment_id = res.id;
+  const postRef = projectFirestore.collection("resturant_posts").doc(post_id);
+
+  const unionRes = await postRef.update({
+    comments: filedValue.arrayUnion(comment_id),
+  });
 }
 
 async function uploadPost(file, body) {
@@ -46,9 +97,18 @@ async function uploadPost(file, body) {
     resturant_id,
     resturant_name,
     content,
+    comments: [],
+    likes: [],
   });
 
   return post_uuid;
 }
 
-module.exports = { uploadPost, getAllPosts };
+module.exports = {
+  uploadPost,
+  getAllPosts,
+  uploadComment,
+  getComments,
+  addLikes,
+  deleteLikes,
+};

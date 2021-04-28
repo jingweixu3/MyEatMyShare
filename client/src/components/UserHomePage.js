@@ -1,15 +1,14 @@
 import React from "react";
 import Navbar from "./Navbar/Navbar";
 import PostingBody from "./PostingBody";
-import SearchPlaces from "./SearchPlaces";
 import UserHomeJumbotron from "./UserHomeJumbotron";
 
-const UserHomePage = ({userLoggedIn, userInfo, posts, setPosts }) => {
+const UserHomePage = ({ userLoggedIn, userInfo, posts, setPosts }) => {
   return (
     <div>
-      <Navbar userLoggedIn= {userLoggedIn} userInfo = {userInfo}/>
+      <Navbar userLoggedIn={userLoggedIn} userInfo={userInfo} />
       <UserHomeJumbotron setPosts={setPosts} />
-      <PostingBody posts={posts} />
+      <PostingBody posts={posts} userInfo={userInfo} />
     </div>
   );
 };
