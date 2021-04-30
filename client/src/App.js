@@ -46,7 +46,7 @@ const App = () => {
       .then((res) => {
         //console.log("dataaaaaaa: ", res.data);
         //console.log("11111", userLoggedIn);
-        if (res.data.length != 0){
+        if (res.data.length !== 0){
           setUserInfo(res.data);
           setuserLoggedIn(true);
           console.log("userrrrinfoooo is", userInfo);
