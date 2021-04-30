@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 import SearchPlaces from "./SearchPlaces";
 
-const PostingContent = ({ setPostButton, setPosts }) => {
+const PostingContent = ({ setPostButton, setPosts, userInfo }) => {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
   const [content, setContent] = useState("");
@@ -43,6 +43,8 @@ const PostingContent = ({ setPostButton, setPosts }) => {
     data.append("resturant_id", resturant);
     data.append("file", file);
     data.append("content", content);
+    data.append("user_id", userInfo.id);
+    data.append("user_name", userInfo.name);
 
     Axios.post("/api/post/upload", data, {
       headers: {

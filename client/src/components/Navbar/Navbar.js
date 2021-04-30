@@ -38,7 +38,10 @@ const Navbar = ({userLoggedIn, userInfo, friendInfo, setFriendInfo}) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark " style = {{height: "55px"}}>
+    <nav
+      className="navbar navbar-expand-lg navbar-dark bg-dark "
+      style={{ height: "55px" }}
+    >
       <button
         className="navbar-toggler"
         type="button"
@@ -60,8 +63,7 @@ const Navbar = ({userLoggedIn, userInfo, friendInfo, setFriendInfo}) => {
               ExploreNearBy <span className="sr-only">(current)</span>
             </Link>
           </li>
-          
-          
+
           <li className="nav-item">
             <a
               className="nav-link disabled"

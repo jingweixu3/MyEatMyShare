@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PostingContent from "./PostingContent";
 
-const UserHomeJumbotron = ({ setPosts }) => {
+const UserHomeJumbotron = ({ setPosts, userInfo }) => {
   const [postButton, setPostButton] = useState(false);
   const onClickPost = (e) => {
     setPostButton(!postButton);
@@ -21,7 +21,11 @@ const UserHomeJumbotron = ({ setPosts }) => {
 
       <div>
         {postButton && (
-          <PostingContent setPosts={setPosts} setPostButton={setPostButton} />
+          <PostingContent
+            setPosts={setPosts}
+            setPostButton={setPostButton}
+            userInfo={userInfo}
+          />
         )}
       </div>
     </div>
