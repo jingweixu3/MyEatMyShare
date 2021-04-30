@@ -30,7 +30,11 @@ async function getAllPosts(collection) {
     .get();
 
   snapshot.forEach((doc) => {
-    documents.push({ ...doc.data(), id: doc.id });
+    documents.push({
+      ...doc.data(),
+      id: doc.id,
+      createdAt: doc.data().createdAt.toDate().toLocaleString(),
+    });
   });
   return documents;
 }
@@ -77,6 +81,8 @@ async function uploadPost(file, body) {
   let metadata = { contentType: file.mimetype, name: file.originalname };
   let resturant_id = body.resturant_id;
   let content = body.content;
+  let user_id = body.user_id;
+  let user_name = body.user_name;
 
   let res = await Axios.get(
     `https://maps.googleapis.com/maps/api/place/details/json?place_id=${resturant_id}&fields=name&key=AIzaSyDGx9NguhqUd5CeQR8FA12jwLTyFgBekxU`
@@ -89,16 +95,21 @@ async function uploadPost(file, body) {
   const URL = await storageRef.getDownloadURL();
   console.log("finish uplaod: ", URL);
 
-  await collectionRef.add({
-    fileName,
+  const post = await collectionRef.add({
     url: URL,
     createdAt,
-    post_uuid,
     resturant_id,
     resturant_name,
     content,
     comments: [],
     likes: [],
+    user_id,
+    user_name,
+  });
+
+  const userRef = projectFirestore.collection("user").doc(user_id);
+  const unionRes = await userRef.update({
+    post: filedValue.arrayUnion(post.id),
   });
 
   return post_uuid;

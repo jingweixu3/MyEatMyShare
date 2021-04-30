@@ -36,22 +36,22 @@ const App = () => {
 
   function setLoggedIn(userLoggedIn) {
     Axios.get("/api/current_user")
-        .then((res) => {
-          console.log("dataaaaaaa: ", res.data);
-          //console.log("11111", userLoggedIn);
-          if (res.data.length != 0){
-            setuserLoggedIn(true);
-            setUserInfo(res.data);
-            console.log("userrrrinfoooo", userInfo);
-          }else{
-            console.log("no data");
-            setuserLoggedIn(false);
-          }
-        })
-        .catch((err) => {
-          console.log("errrrr");
-          console.log(err);
-        });
+      .then((res) => {
+        console.log("dataaaaaaa: ", res.data);
+        //console.log("11111", userLoggedIn);
+        if (res.data.length !== 0) {
+          setuserLoggedIn(true);
+          setUserInfo(res.data);
+          console.log("userrrrinfoooo", userInfo);
+        } else {
+          console.log("no data");
+          setuserLoggedIn(false);
+        }
+      })
+      .catch((err) => {
+        console.log("errrrr");
+        console.log(err);
+      });
     console.log("userLoggedIn1111111", userLoggedIn);
   }
   // setLoggedIn(userLoggedIn);
@@ -79,14 +79,27 @@ const App = () => {
           <Route
             exact
             path="/"
-            render={() => <UserHomePage userLoggedIn = {userLoggedIn} userInfo = {userInfo} posts={posts} setPosts={setPosts} />}
+            render={() => (
+              <UserHomePage
+                userLoggedIn={userLoggedIn}
+                userInfo={userInfo}
+                posts={posts}
+                setPosts={setPosts}
+              />
+            )}
           />
         )}
         {!userLoggedIn && <Route exact path="/" component={LandingPage} />}
         {userLoggedIn && (
           <Route
             path="/ExploreNearby"
-            render={() => <ExploreNearbyPage userLocation={userLocation} userLoggedIn = {userLoggedIn} userInfo = {userInfo}/>}
+            render={() => (
+              <ExploreNearbyPage
+                userLocation={userLocation}
+                userLoggedIn={userLoggedIn}
+                userInfo={userInfo}
+              />
+            )}
           />
         )}
         {userLoggedIn && (
@@ -97,9 +110,9 @@ const App = () => {
         )}
         {userLoggedIn && (
           <Route
-           path="/profile"
-           render={()=><Profile userInfo={userInfo} />}
-           />
+            path="/profile"
+            render={() => <Profile userInfo={userInfo} />}
+          />
         )}
       </div>
     </Router>

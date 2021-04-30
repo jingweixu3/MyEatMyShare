@@ -7,7 +7,7 @@ const UserHomePage = ({ userLoggedIn, userInfo, posts, setPosts }) => {
   return (
     <div>
       <Navbar userLoggedIn={userLoggedIn} userInfo={userInfo} />
-      <UserHomeJumbotron setPosts={setPosts} />
+      <UserHomeJumbotron setPosts={setPosts} userInfo={userInfo} />
       <PostingBody posts={posts} userInfo={userInfo} />
     </div>
   );
