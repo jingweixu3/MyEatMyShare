@@ -9,4 +9,10 @@ module.exports = function(app) {
     app.use(proxy('/api/current_user', 
         { target: 'http://localhost:5000/' }
     ));
+    app.use(proxy('/api/user/addFollowsr', 
+        { target: 'http://localhost:5000/' }
+    ));
+    app.use(proxy('/api/user/deleteFollowsr', 
+        { target: 'http://localhost:5000/' }
+    ));
 }

@@ -5,7 +5,7 @@ import FindNearby from "./FindNearby";
 import FindResturant from "./FindResturant";
 import Axios from "axios";
 
-const ExploreNearbyPage = ({ userLocation,userLoggedIn,userInfo }) => {
+const ExploreNearbyPage = ({ userLocation,userLoggedIn,userInfo, setFriendInfo, friendInfo }) => {
   const [findNearByButton, setFindNearByButton] = useState(false);
   const [findResturantButton, setFindResturantButton] = useState(false);
   const [nearby, setNearby] = useState([]);
@@ -35,7 +35,7 @@ const ExploreNearbyPage = ({ userLocation,userLoggedIn,userInfo }) => {
 
   return (
     <div>
-      <Navbar userLoggedIn={userLoggedIn} userInfo = {userInfo}/>
+      <Navbar userLoggedIn={userLoggedIn} userInfo = {userInfo} setFriendInfo={setFriendInfo} friendInfo = {friendInfo}/>
       <ExploreNearbyJumbotron
         setFindNearByButton={setFindNearByButton}
         setFindResturantButton={setFindResturantButton}
