@@ -43,6 +43,7 @@ router.get("/:id/comments", async (req, res) => {
   console.log(comments);
   res.json({ comments });
 });
+
 router.post(
   "/upload",
   // requireLogin,

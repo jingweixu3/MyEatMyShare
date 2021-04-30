@@ -158,7 +158,7 @@ const PostGrid = ({ post, userInfo }) => {
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
-              R
+              {post.user_name.charAt(0)}
             </Avatar>
           }
           action={
@@ -171,7 +171,7 @@ const PostGrid = ({ post, userInfo }) => {
               {post.resturant_name}
             </Link>
           }
-          subheader="September 14, 2016"
+          subheader={post.user_name.concat(" - ").concat(post.createdAt)}
         />
         <CardMedia
           className={classes.media}
