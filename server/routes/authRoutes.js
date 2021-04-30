@@ -27,7 +27,7 @@ module.exports = app =>{
     app.get(
         '/api/current_user', (req, res) =>{
             res.send(req.user);
-            //为什么这里要加
+            //res.json(req.user);
     });
 
     

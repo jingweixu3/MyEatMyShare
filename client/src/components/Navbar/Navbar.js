@@ -1,9 +1,42 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import Axios from "axios";
+import React,{ useState, useEffect} from "react";
+import { useHistory, Link } from "react-router-dom";
 
-<link href="navbar.css" rel="stylesheet" type="text/css" />;
 
-const Navbar = ({ userLoggedIn, userInfo }) => {
+<link href="navbar.css" rel="stylesheet" type="text/css" />
+
+const Navbar = ({userLoggedIn, userInfo, friendInfo, setFriendInfo}) => {
+  const [friendName, setFriendName] = useState("");
+  const [error, setError] = useState(null);
+  let history = useHistory();
+
+  const handleChange = async (e) => {
+    let selected = e.target.value;
+    console.log("thi is selected, ", selected);
+    setFriendName(e.target.value);
+  }
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (friendName === "") {
+      setError("Required a name!");
+      return;
+    }
+    console.log("this is name", JSON.stringify(friendName));
+    Axios.get(`/api/user/search/${friendName}`)
+    .then((res) => {
+      console.log("dataaaaaaa: ", res.data);
+      setFriendInfo(res.data);
+      // let {history} = props;
+      history.push({pathname:`/searchFriend/${friendName}`}, friendInfo = {friendInfo}, userInfo = {userInfo})
+      
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    
+    
+  };
+
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark bg-dark "
@@ -43,51 +76,38 @@ const Navbar = ({ userLoggedIn, userInfo }) => {
           </li>
         </ul>
 
-        <ul
-          className="nav-nav"
-          style={{ float: "right", listStyleType: "none" }}
-        >
-          <li className="nav-item">
-            <div
-              id="imgDiv"
-              style={{ paddingTop: "10px", marginRight: "-5px" }}
-            >
-              {userLoggedIn && userInfo !== null && userInfo.avatar === "" && (
-                <a className="nav-link" href="/profile">
-                  <img src="https://www.shareicon.net/data/40x40/2016/08/05/806962_user_512x512.png" />
-                </a>
-              )}
-            </div>
-            <div
-              id="imgDiv"
-              style={{ paddingTop: "10px", marginRight: "-5px" }}
-            >
-              {userLoggedIn && userInfo !== null && userInfo.avatar !== "" && (
-                <a className="nav-link" href="/profile">
-                  <img src={userInfo.avatar} />
-                </a>
-              )}
-            </div>
+        <ul className="navbar-nav" style={{float:"right", listStyleType:"none"}}> 
+        <li className="nav-item" >
+          <div id="imgDiv" style ={{paddingTop: "15px", marginRight: "-5px"}}>
+            {userLoggedIn && userInfo !== null && userInfo.avatar === "" && <a className="nav-link" href={`/profile/${userInfo.googleId}`}>
+              <img src="https://www.shareicon.net/data/40x40/2016/08/05/806962_user_512x512.png" />
+            </a>}
+          </div>
+          <div id="imgDiv" style ={{paddingTop: "15px", marginRight: "-5px"}}>
+            {userLoggedIn && userInfo !==null && userInfo.avatar !== "" && <a className="nav-link" href={`/profile/${userInfo.googleId}`}>
+              <img src= {userInfo.avatar} />
+            </a>}
+          </div>
+        </li>
+
+        {/* <li className="nav-item active">
+            {!userLoggedIn && <a className="nav-link" href="/auth/google">Login with google</a>}
+            {userLoggedIn && <a className="nav-link" href="/api/logout">Logout</a>}
+        </li>      */}
+        </ul>
+        <ul className="navbar-nav" style={{listStyleType:"none", paddingTop: "10px"}}>
+        <li className="nav-item active">
+            {!userLoggedIn && <a className="nav-link" href="/auth/google">Login with google</a>}
+            {userLoggedIn && <a className="nav-link" href="/api/logout">Logout</a>}
           </li>
         </ul>
-        <ul
-          className="nav-nav "
-          style={{ listStyleType: "none", paddingTop: "10px" }}
-        >
-          <li className="nav-item active">
-            {!userLoggedIn && (
-              <a className="nav-link" href="/auth/google">
-                Login with google
-              </a>
-            )}
-            {userLoggedIn && (
-              <a className="nav-link" href="/api/logout">
-                Logout
-              </a>
-            )}
-          </li>
-        </ul>
-      </div>
+
+        <form className="form-inline my-2 my-lg-0" onSubmit={onSubmit}>
+          <input className="form-control mr-sm-2" type="search" placeholder="Search friends with name" aria-label="Search" onChange={handleChange}/>
+           {/* <button className="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button> */}
+           <input type="submit" value="search" className="btn btn-outline-primary my-2 my-sm-0"/>
+        </form>
+      </div>  
     </nav>
   );
 };

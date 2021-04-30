@@ -5,13 +5,16 @@ import LandingPage from "./components/LandingPage";
 import UserHomePage from "./components/UserHomePage";
 import Resturant from "./components/Resturant";
 import Profile from "./components/Profile/Profile";
+import SearchedFriend from "./components/SearchedFriend";
 import Axios from "axios";
 
 const App = () => {
   const [posts, setPosts] = useState([]);
-  const [userLoggedIn, setuserLoggedIn] = useState(true);
+  const [userLoggedIn, setuserLoggedIn] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
+  const [friendInfo, setFriendInfo] = useState([]);
+  
 
   function setPosition(position) {
     console.log(
@@ -34,30 +37,32 @@ const App = () => {
     }
   }
 
-  function setLoggedIn(userLoggedIn) {
-    Axios.get("/api/current_user")
+
+  useEffect(() => {
+    //setLoggedIn();
+    
+    const setLogin = async() => {
+      Axios.get("/api/current_user")
       .then((res) => {
-        console.log("dataaaaaaa: ", res.data);
+        //console.log("dataaaaaaa: ", res.data);
         //console.log("11111", userLoggedIn);
-        if (res.data.length !== 0) {
-          setuserLoggedIn(true);
+        if (res.data.length !== 0){
           setUserInfo(res.data);
-          console.log("userrrrinfoooo", userInfo);
-        } else {
+          setuserLoggedIn(true);
+          console.log("userrrrinfoooo is", userInfo);
+        }else{
           console.log("no data");
-          setuserLoggedIn(false);
+          //setuserLoggedIn(false);
+          //setUserInfo(res.data);
         }
       })
       .catch((err) => {
         console.log("errrrr");
         console.log(err);
       });
-    console.log("userLoggedIn1111111", userLoggedIn);
-  }
-  // setLoggedIn(userLoggedIn);
-
-  useEffect(() => {
-    setLoggedIn(userLoggedIn);
+    }
+    
+    setLogin();
     getLocation();
 
     if (userLoggedIn) {
@@ -79,29 +84,16 @@ const App = () => {
           <Route
             exact
             path="/"
-            render={() => (
-              <UserHomePage
-                userLoggedIn={userLoggedIn}
-                userInfo={userInfo}
-                posts={posts}
-                setPosts={setPosts}
-              />
-            )}
+            render={() => <UserHomePage userLoggedIn = {userLoggedIn} userInfo = {userInfo} posts={posts} setPosts={setPosts} setFriendInfo={setFriendInfo} friendInfo = {friendInfo}/>}
           />
         )}
         {!userLoggedIn && <Route exact path="/" component={LandingPage} />}
-        {userLoggedIn && (
+        {/* {userLoggedIn && ( */}
           <Route
             path="/ExploreNearby"
-            render={() => (
-              <ExploreNearbyPage
-                userLocation={userLocation}
-                userLoggedIn={userLoggedIn}
-                userInfo={userInfo}
-              />
-            )}
+            render={() => <ExploreNearbyPage userLocation={userLocation} userLoggedIn = {userLoggedIn} userInfo = {userInfo} setFriendInfo = {setFriendInfo} friendInfo = {friendInfo}/>}
           />
-        )}
+        {/* )} */}
         {userLoggedIn && (
           <Route
             path="/Resturant/:id"
@@ -110,10 +102,18 @@ const App = () => {
         )}
         {userLoggedIn && (
           <Route
-            path="/profile"
-            render={() => <Profile userInfo={userInfo} />}
-          />
+           path="/profile/:id"
+           render={(props) => <Profile id ={props.match.params.id} userInfo = {userInfo} />}
+           />
         )}
+        {userLoggedIn && (
+          <Route
+           path="/searchFriend/:name"
+           render={(props) => <SearchedFriend id ={props.match.params.name} friendInfo={friendInfo} userInfo = {userInfo}/>}
+           />
+        )}
+
+
       </div>
     </Router>
   );

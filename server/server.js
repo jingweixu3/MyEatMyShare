@@ -24,15 +24,19 @@ app.use(passport.session());
 global.XMLHttpRequest = require("xhr2");
 
 // Set post routes to post.js in routes folder
+//const user_route = require("./routes/userRoutes");
 const post = require("./routes/post");
 const resturant = require("./routes/resturant");
 
+
+
 // Enable CORS
 app.use(cors());
-
+//app.use("/api/user", user_route);
 app.use("/api/post", post);
 app.use("/api/resturant", resturant);
 require('./routes/authRoutes')(app);
+require('./routes/userRoutes')(app);
 
 // homepage endpoint data retrieve from react
 app.get("/api/homepage", (req, res) => {
