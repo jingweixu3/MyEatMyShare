@@ -4,7 +4,9 @@ import mapStyles from "./mapStyles";
 import PlaceIcon from '@material-ui/icons/Place';
 import CallEndIcon from '@material-ui/icons/CallEnd';
 import LanguageIcon from '@material-ui/icons/Language';
-
+import Rating from '@material-ui/lab/Rating';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 const GoogleMaps = ({ nearby, coordinate, mapRef,placeSearchResult}) => {
   const [selected, setSelected] = React.useState(placeSearchResult);
 
@@ -103,3 +105,4 @@ const GoogleMaps = ({ nearby, coordinate, mapRef,placeSearchResult}) => {
 };
 
 export default GoogleMaps;
+

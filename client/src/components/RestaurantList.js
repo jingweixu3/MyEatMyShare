@@ -10,7 +10,7 @@ const RestaurantList=({nearby}) => {
 return(
     <div className='showlist'>
         {nearby.map((resturant) => (
-            <div className='listitem' >
+            <div className='listitem'>
 
 
                 <img className = 'image' src ={`https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=${resturant.view.photo_reference}&key=AIzaSyDGx9NguhqUd5CeQR8FA12jwLTyFgBekxU`} alt="/.default_avatar.png" />
@@ -66,7 +66,14 @@ return(
                 </div>
             </div>
         ))}
- 
+    
+
+
+
+
+
+
+
 
     </div>
 

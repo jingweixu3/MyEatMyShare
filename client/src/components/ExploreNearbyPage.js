@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar/Navbar";
 import ExploreNearbyJumbotron from "./ExploreNearbyJumbotron";
+// import FindNearby from "./FindNearby";
+// import FindResturant from "./FindResturant";
+// import PostRestaurant from "./PostRestaurant";
 import RestaurantList from "./RestaurantList";
 import Axios from "axios";
 import {
-  Combobox
+  Combobox,
+
 } from "@reach/combobox";
 import "./ExploreNearbyPage.css";
 import GoogleMaps from "./GoogleMaps";

@@ -22,8 +22,7 @@ router.get("/nearby", async (req, res) => {
       // ifconsole.log(value.photos);
       nearby.push({
         // view: (value.photos?[]: value.photos[0]),
-        // view: value.photos[0],
-        view: (value.photos?value.photos[0]:null),
+        view: value.photos[0],
         place_id: value.place_id,
         ratingtotal: value.user_ratings_total,
         rating: value.rating,

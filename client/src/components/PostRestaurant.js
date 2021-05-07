@@ -114,11 +114,18 @@ function PostRestaurant({openhour,username,phone,website,types, icon, vicinity, 
                 Open Hour
                 </Typography>
 
+
+            {/* <List className={classes.rootopen}>
+                        <ListItem>
+                            <ListItemText secondary="Jan 9, 2014" />
+                        </ListItem>
+            </List> */}
+
             {openhour &&( 
             <List className={classes.rootopen}> 
                 {(openhour.weekday_text).map(item => (
                     // <li key={item}>{item}</li>
-                    <div key={item}>
+                    <div>
                             <ListItemText secondary={item} />
                             {/* {item} */}
                      </div> 
@@ -186,9 +193,9 @@ function PostRestaurant({openhour,username,phone,website,types, icon, vicinity, 
                 Comments
                 </Typography>
             <List className={classes.rootlist} subheader={<li />}>
-                {[0].map((sectionId) => (
-                    <li key={`section-${sectionId}`} className={classes.listSection}>
-                    <ul className={classes.ul}>
+      {[0].map((sectionId) => (
+        <li key={`section-${sectionId}`} className={classes.listSection}>
+          <ul className={classes.ul}>
 
 
             {captions &&

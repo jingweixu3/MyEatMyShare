@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import GoogleMaps from "./GoogleMaps";
 import PostRestaurant from "./PostRestaurant";
-import RestaurantList from "./RestaurantList";
+// import DefineSearch from "./DefineSearch";
+// import RestaurantList from "./RestaurantList";
 import Navbar from "./Navbar/Navbar";
 import './Resturant.css';
 
@@ -50,15 +51,6 @@ const Resturant = ({id, userLoggedIn, userInfo}) => {
 
   return (
     <div>
-<<<<<<< Updated upstream
-      <Navbar userLoggedIn={userLoggedIn} userInfo = {userInfo}/>
-      {resturant && <h1>Hello {resturant.name}!</h1>}
-      {resturant && (
-        <h5>
-          {resturant.coordinate.lat}, {resturant.coordinate.lng}
-        </h5>
-      )}
-=======
       <Navbar />
 
 
@@ -77,7 +69,6 @@ const Resturant = ({id, userLoggedIn, userInfo}) => {
       } */}
 
 
->>>>>>> Stashed changes
       {resturant && (
        <PostRestaurant openhour={resturant.openhour} username={resturant.name} phone={resturant.phone} website={resturant.website} types={resturant.types} icon={resturant.icon} vicinity={resturant.vicinity} captions={resturant.reviews} photos={resturant.photos} view={resturant.view}/>
       )}
