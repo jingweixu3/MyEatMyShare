@@ -39,6 +39,20 @@ async function getAllPosts(collection) {
   return documents;
 }
 
+async function getPostById(id) {
+  console.log("get post id", id);
+  const postRef = projectFirestore.collection("resturant_posts").doc(id);
+  const doc = await postRef.get();
+  if (!doc.exists) {
+    console.log('No such document!');
+    return null;
+  } else {
+    console.log('Document data:', doc.data());
+    return doc.data();
+  }
+}
+
+
 async function getComments(collection, post_ID) {
   let documents = [];
   const snapshot = await projectFirestore
@@ -122,4 +136,5 @@ module.exports = {
   getComments,
   addLikes,
   deleteLikes,
+  getPostById
 };

@@ -2,48 +2,143 @@ import React,{ useState, useEffect} from "react";
 // import { Link } from "react-router-dom";
 // import Navbar from "../Navbar/Navbar";
 import Axios from "axios";
+import UpdateProfile from "../UpdateProfile";
+import ShowFollower from "../ShowFollower";
+import ShowFollows from "../ShowFollows";
+import postGrid from "../PostGrid";
+import PostGrid from "../PostGrid";
+//import useForceUpdate from 'use-force-update';
+
 
 <link href="profile.css" rel="stylesheet" type="text/css" />
 
 
 const Profile = ({id, userInfo}) =>  {
-    console.log("idddd is ", id);
-    console.log("user info is... ", userInfo);
-    //const [userInfo, setUserInfo] = useState(null);
     const [foundUser, setFoundUser] = useState(null);
-    const [isCurrentUser, setIsCurrentUser] = useState(false);
-   
+    const [follower, setFollower] = useState([]);
+    const [follows, setFollows] = useState([]);
+    const [userPost, setUserPost] = useState([]);
+    const [follow, setFollow] = useState(false);
+    
     useEffect(()  => {
+        const followSet = new Set(userInfo.follow);
         const setInfo= async() => {
             Axios.get(`/api/user/${id}`)
             .then((res) => {
-                console.log("found user dataaaaaaa: ", res.data);
-                setFoundUser(res.data);
+                setFoundUser(res.data);  
                 
-                // if (userInfo != null && userInfo.googleId == foundUser.googleId){
-                //     setIsCurrentUser(true);
-                //     console.log("isCurrentUser", isCurrentUser);
-                // }
             })
             .catch((err) => {
                 console.log("err in profile");
                 console.log(err);
-            });
-            console.log("userrrrr", userInfo, "founderUeerrr", foundUser);        
+            });  
+            
+            Axios.get(`/api/user/post/${id}`)
+            .then((res) => {
+                setUserPost(res.data); 
+                if (followSet.has(res.data.id)){
+                    setFollow(true);
+                } 
+            })
+            .catch((err) => {
+                console.log("err in profile");
+                console.log(err);
+            }); 
+
+            //console.log("is true??", followSet.has(foundUser.id));
+            if (foundUser && followSet.has(foundUser.id)){
+                setFollow(true);
+            } 
         }
-        setInfo();
-        
-      },[]);
+        setInfo();  
+           
+      }, []);
+
+    const handleClickFollower = (e) => {
+        if (foundUser) {
+            Axios.get(`/api/user/follower/${foundUser.id}`)
+                .then((res) => {
+                    console.log("data", res.data);
+                    setFollower(res.data);    
+                })
+                .catch((err) => {
+                    console.log("err in profile");
+                    console.log(err);
+                });
+            }
+    }
+
+    const handleClickFollow = (e) => {
+        if (foundUser) {
+            Axios.get(`/api/user/follow/${foundUser.id}`)
+                .then((res) => {
+                    console.log("data", res.data);
+                    setFollows(res.data);    
+                })
+                .catch((err) => {
+                    console.log("err in profile");
+                    console.log(err);
+                });
+            }
+    }
+
+    const handleClickProfile =(e) => {
+        Axios.get(`/api/user/${id}`)
+        .then((res) => {
+            setFoundUser(res.data);  
+            
+        })
+        .catch((err) => {
+            console.log("err in profile");
+            console.log(err);
+        });  
+    }
+
+    const handleClick = (e) => {
+        let data = {
+          user_id: userInfo.id,
+          change_id: foundUser.id,
+        };
+        if (follow) {
+          setFollow(false);
+          console.log("unfollow!");
+          // delete like from like array in backend
+          Axios.delete("/api/user/deleteFollows", {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            data: data,
+          }).catch((err) => {
+            console.log(err);
+          });
+        } else {
+          setFollow(true);
+          console.log("follow!");
+          // add user to the like array in the backend
+          Axios.post("/api/user/addFollows", data, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }).catch((err) => {
+            console.log(err);
+          });
+        }
+      };
+
+   
 
 
-    console.log("userInfo is, ", userInfo);
-    console.log("found user is sssss", foundUser);
-    //setIsCurrentUser(userInfo.googleId === foundUser.googleId);
-    // if (userInfo != null && userInfo.googleId == foundUser.googleId){
-    //     setIsCurrentUser(true);
-    //     console.log("isCurrentUser", isCurrentUser);
-    // }
-    //console.log("is currentttt", isCurrentUser);
+    // console.log("userInfo is, ", userInfo);
+    // console.log("found user is sssss", foundUser);
+    // console.log("followerrr", follower);
+    // console.log("userPost", userPost);
+    // console.log("follow of the foundUser", follow);
+    // console.log("sssss", foundUser);
+    //console.log("is true??", followSet.has(foundUser.id));
+    // if (foundUser && followSet.has(foundUser.id)){
+    //     setFollow(true);
+    // } 
+    // console.log("follow of the foundUser22", follow);
   
   return (
     <div>
@@ -59,10 +154,12 @@ const Profile = ({id, userInfo}) =>  {
                 <div className="card">
                     <div className="card-body">
                         <div className="d-flex flex-column align-items-center text-center">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" className="rounded-circle" width="150" />
+                            {foundUser && foundUser.avatar === "" && <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Admin" className="rounded-circle" width="150" />}
+                            {foundUser && foundUser.avatar !== "" && <img src={foundUser.avatar} alt="Admin" className="rounded-circle" width="150" />}
                             {foundUser && <div className="mt-3">
                                 {foundUser && <h4>{foundUser.firstName} {foundUser.lastName}</h4>}
-                                {foundUser && userInfo.googleId !== foundUser.googleId&& <button className="btn btn-primary">Follow</button>}
+                                {foundUser && userInfo.googleId !== foundUser.googleId && !follow && <button className="btn btn-primary" onClick={handleClick}>Follow</button>}
+                                {foundUser && userInfo.googleId !== foundUser.googleId && follow && <button className="btn btn-primary" onClick={handleClick}>Followed</button>}
                                 {/* <button className="btn btn-outline-primary">{userInfo.googleId}</button> */}
                             </div>}
                         </div>
@@ -72,10 +169,9 @@ const Profile = ({id, userInfo}) =>  {
                 <div className="card mt-3">
                     <div className="nav flex-column nav-tabs text-center" id="v-tabs-tab" role="tablist" aria-orientation="vertical">
                         <a className="nav-link active" id="v-tabs-home-tab" datamdbtoggle="tab" href="#v-tabs-home" data-toggle="tab" aria-controls="v-tabs-home" aria-selected="true">Home</a>
-                        {foundUser && userInfo.googleId == foundUser.googleId && <a className="nav-link" id="v-tabs-profile-tab" datamdbtoggle="tab" href="#v-tabs-profile" data-toggle="tab" aria-controls="v-tabs-profile" aria-selected="false">Update Profile</a>}
-                        <a className="nav-link" id="v-tabs-messages-tab" datamdbtoggle="tab" href="#v-tabs-messages" data-toggle="tab" aria-controls="v-tabs-messages" aria-selected="false">messages</a>
-                        <a className="nav-link" id="v-tabs-follower-tab" datamdbtoggle="tab" href="#v-tabs-follower" data-toggle="tab" aria-controls="v-tabs-follower" aria-selected="false">follower</a>
-                        <a className="nav-link" id="v-tabs-follow-tab" datamdbtoggle="tab" href="#v-tabs-follow" data-toggle="tab" aria-controls="v-tabs-follow" aria-selected="false">follow</a>
+                        {foundUser && userInfo.googleId == foundUser.googleId && <a className="nav-link" id="v-tabs-profile-tab" datamdbtoggle="tab" href="#v-tabs-profile" data-toggle="tab" aria-controls="v-tabs-profile" aria-selected="false" onClick={handleClickProfile}>Update Profile</a>}
+                        <a className="nav-link" id="v-tabs-messages-tab" datamdbtoggle="tab" href="#v-tabs-messages" data-toggle="tab" aria-controls="v-tabs-messages" aria-selected="false" onClick={handleClickFollower}>follower</a>
+                        <a className="nav-link" id="v-tabs-follower-tab" datamdbtoggle="tab" href="#v-tabs-follower" data-toggle="tab" aria-controls="v-tabs-follower" aria-selected="false" onClick={handleClickFollow}>following</a>
                     </div>
                 </div>
             </div>
@@ -123,29 +219,32 @@ const Profile = ({id, userInfo}) =>  {
                         <div className="col-sm-12 mb-3">
                         <div className="card h-100">
                           <div className="card-body">
-                          <h6 className="d-flex align-items-center mb-3"><i className="material-icons text-info mr-2">assignment</i>Post</h6>
+                          <h6 className="d-flex align-items-center mb-3"><i className="material-icons text-info mr-2">Post</i></h6>
+                          <section className="search-result-item">
+                            {foundUser && userPost && userPost.map((info) => (
+                                <PostGrid key = {info.id} post = {info} userInfo={userInfo}/>
+                            ))}
+                         </section>
                           </div>
                         </div>
                         </div>
                     </div>
                     </div>
                     {foundUser && userInfo.googleId === foundUser.googleId && <div className="tab-pane fade" id="v-tabs-profile" role="tabpanel" aria-labelledby="v-tabs-profile-tab">
-                    Update profile
+                       <UpdateProfile foundUser = {foundUser}/>
                     </div>}
                     <div className="tab-pane fade" id="v-tabs-messages" role="tabpanel" aria-labelledby="v-tabs-messages-tab">
-                    messages
+                       <ShowFollower foundUser = {foundUser} userInfo = {userInfo} follower = {follower}/>
                     </div>
                     <div className="tab-pane fade" id="v-tabs-follower" role="tabpanel" aria-labelledby="v-tabs-follower-tab">
-                    follower
+                       <ShowFollows foundUser = {foundUser} userInfo = {userInfo} follows = {follows}/>
                     </div>
-                    <div className="tab-pane fade" id="v-tabs-follow" role="tabpanel" aria-labelledby="v-tabs-follow-tab">
+                    {/* <div className="tab-pane fade" id="v-tabs-follow" role="tabpanel" aria-labelledby="v-tabs-follow-tab">
                     follow
-                    </div>
-
+                    </div> */}
                 </div>
             </div>    
-        </div>
-        
+        </div>    
     </div>
   );
 };

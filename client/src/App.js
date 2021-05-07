@@ -14,7 +14,7 @@ const App = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [friendInfo, setFriendInfo] = useState([]);
-  
+  // friendInfo={friendInfo}
 
   function setPosition(position) {
     console.log(
@@ -44,12 +44,10 @@ const App = () => {
     const setLogin = async() => {
       Axios.get("/api/current_user")
       .then((res) => {
-        //console.log("dataaaaaaa: ", res.data);
-        //console.log("11111", userLoggedIn);
         if (res.data.length != 0){
           setUserInfo(res.data);
           setuserLoggedIn(true);
-          console.log("userrrrinfoooo is", userInfo);
+          console.log("user info is", userInfo);
         }else{
           console.log("no data");
           //setuserLoggedIn(false);
@@ -57,7 +55,7 @@ const App = () => {
         }
       })
       .catch((err) => {
-        console.log("errrrr");
+        console.log("err in App");
         console.log(err);
       });
     }
@@ -97,7 +95,7 @@ const App = () => {
         {userLoggedIn && (
           <Route
             path="/Resturant/:id"
-            render={(props) => <Resturant {...props} />}
+            render={(props) => <Resturant id ={props.match.params.id}  userLoggedIn = {userLoggedIn} userInfo = {userInfo}/>}
           />
         )}
         {userLoggedIn && (
@@ -109,7 +107,7 @@ const App = () => {
         {userLoggedIn && (
           <Route
            path="/searchFriend/:name"
-           render={(props) => <SearchedFriend id ={props.match.params.name} friendInfo={friendInfo} userInfo = {userInfo}/>}
+           render={(props) => <SearchedFriend name ={props.match.params.name} userInfo = {userInfo}/>}
            />
         )}
 
