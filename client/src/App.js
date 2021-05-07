@@ -98,6 +98,12 @@ const App = () => {
             render={(props) => <Resturant id ={props.match.params.id}  userLoggedIn = {userLoggedIn} userInfo = {userInfo}/>}
           />
         )}
+        {/* {userLoggedIn && (
+          <Route
+            path="/Resturant/:id"
+            render={(props) => <Resturant {...props} friendInfo = {friendInfo}/>}
+          />
+        )} */}
         {userLoggedIn && (
           <Route
            path="/profile/:id"

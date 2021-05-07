@@ -1,26 +1,25 @@
 import React, { useState } from "react";
 import SearchPlaces from "./SearchPlaces";
+import  './ExploreNearbyJumbotron.css';
 import Axios from "axios";
 
 const ExploreNearbyJumbotron = ({
+  panTo,
   setFindNearByButton,
-  setFindResturantButton,
-  findResturantButton,
   findNearByButton,
   setplaceSearchResult,
+  setCenter,
 }) => {
+
+
   const [place, setPlace] = useState("");
+
   const [err, setError] = useState(null);
 
   const onClickNearBy = (e) => {
     setFindNearByButton(!findNearByButton);
-    setFindResturantButton(false);
   };
 
-  const onClickFind = (e) => {
-    setFindResturantButton(!findResturantButton);
-    setFindNearByButton(false);
-  };
 
   const onClickSearch = (e) => {
     if (!place) {
@@ -35,6 +34,7 @@ const ExploreNearbyJumbotron = ({
       .then((res) => {
         console.log("resturant dataaaaaaa: ", res.data);
         setplaceSearchResult(res.data);
+        setCenter(res.data.coordinate);
       })
       .catch((err) => {
         console.log(err);
@@ -42,36 +42,32 @@ const ExploreNearbyJumbotron = ({
   };
 
   return (
-    <div className="jumbotron vertical-align-center text-center mb-0">
-      <div className="container mb-3">
-        <button
-          type="button"
-          className="mb-2 btn btn-primary mr-2 btn-md"
-          onClick={onClickNearBy}
-        >
-          FindNearby
-        </button>
-        <button
-          type="button"
-          className="mb-2 btn btn-primary mr-2 btn-md"
-          onClick={onClickFind}
-        >
-          Find Resturant
-        </button>
-        {findResturantButton && (
-          <div className="container mt-4 col-lg-4">
-            <SearchPlaces setResturant={setPlace} />
-            <button
+<div>
+    <div>
+
+
+    </div>
+
+
+          <div className="search">
+            
+            <SearchPlaces setResturant={setPlace} panTo={panTo}/>
+            {console.log('test1'+ place)}
+            <div className='searchbutton'>
+            <button className='btn btn-light'
               type="button"
-              className="mt-4 mb-2 btn btn-primary mr-2 btn-md"
+
               onClick={onClickSearch}
             >
-              Search
+              Find
             </button>
+            </div>
+
           </div>
-        )}
-      </div>
-    </div>
+
+
+</div>
+
   );
 };
 
