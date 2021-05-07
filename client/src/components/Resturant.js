@@ -3,12 +3,12 @@ import Axios from "axios";
 import GoogleMaps from "./GoogleMaps";
 import Navbar from "./Navbar/Navbar";
 
-const Resturant = (props) => {
+const Resturant = ({id, userLoggedIn, userInfo}) => {
   const [resturant, setResturant] = useState(null);
   const [nearby, setNearby] = useState([]);
 
   useEffect(() => {
-    Axios.get(`/api/resturant/${props.match.params.id}`)
+    Axios.get(`/api/resturant/${id}`)
       .then((res) => {
         console.log("resturant dataaaaaaa: ", res.data);
         setResturant(res.data);
@@ -32,11 +32,11 @@ const Resturant = (props) => {
       console.log(err);
     }
   };
-  console.log(props.match.params.id);
+  console.log(id);
 
   return (
     <div>
-      <Navbar />
+      <Navbar userLoggedIn={userLoggedIn} userInfo = {userInfo}/>
       {resturant && <h1>Hello {resturant.name}!</h1>}
       {resturant && (
         <h5>

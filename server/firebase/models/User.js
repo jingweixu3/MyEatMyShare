@@ -1,9 +1,10 @@
 // const { projectStorage,projectFirestore, timestamp } = require("../config");
 const { projectStorage, projectFirestore, timestamp, filedValue} = require("../config");
+const { getPostById } = require("../useStorage");
 
 async function insertUser(profile) {
-    console.log("proooooo", profile);
-    console.log("iddddd", profile.id);
+    // console.log("proooooo", profile);
+    // console.log("iddddd", profile.id);
 
     const createdAt = timestamp();
     //console.log("photo is", photo);
@@ -45,24 +46,25 @@ async function insertUser(profile) {
       location,
       note,
       firstName,
-      lastNmae
+      lastName
     });
     console.log("insert google id", googleId);
-    const user = await getUser(googleId);
+    const user = await getUserByGoogleId(googleId);
     return user;
   }
 
-  async function getUser(googleId) {
-     console.log("get google id", googleId);
+  async function getUserByGoogleId(googleId) {
+     //console.log("get id", googleId);
      documents = [];
      const userRef = projectFirestore.collection("user");
+    //  const doc = await userRef.get();
      const doc = await userRef.where('googleId','==',googleId).get();
      //const doc = await userRef.where('googleId','==',googleId).get();
-     //const doc = await userRef.doc("RfE80KnUfElyfqrt6bFM").get();
+     //const doc = await userRef.doc(id).get();
      //const doc = await userRef.where('post_uuid','==','cd0f3fbd-94f3-4960-84bc-c797e6a90194').get();
      //console.log("docccccc",doc);
      if (doc.empty) {
-        console.log('No such document!');
+        console.log('No such document!!!!!');
         return null;
       } else {
         doc.forEach((doc) => {
@@ -71,14 +73,33 @@ async function insertUser(profile) {
         //console.log('Document data:', doc.data());
         return documents[0];
       }
+    // if (doc){
+    //   console.log(doc);
+    //   return doc.data();
+    // }else{
+    //   return null;
+    // }
 
   }
 
+  async function getUserById(id) {
+   // console.log("get id", id);
+    const userRef = projectFirestore.collection("user").doc(id);
+    const doc = await userRef.get();
+    if (!doc.exists) {
+      console.log('No such document!');
+      return null;
+    } else {
+      //console.log('Document data:', doc.data());
+      return doc.data();
+    }
+  }
+
   async function getSatisfiedUser(name) {
-    console.log("in gettttt function");
-    console.log("get name", name);
+    // console.log("in gettttt function");
+    // console.log("get name", name);
     name = name.toLowerCase();
-    documents = [];
+    documents_1 = [];
     // name_arr = name.trim().split(" ");
     // console.log("name length", name_arr.length);
     // let flag = 1;
@@ -97,26 +118,27 @@ async function insertUser(profile) {
       ]);
 
       const firstNameArray = firstNameQuerySnapshot.docs;
+      //console.log("ffff", firstNameArray);
       const lastNameArray = lastNameQuerySnapshot.docs;
-
+      //console.log("lllll", lastNameArray);
       const nameArray = firstNameArray.concat(lastNameArray);
 
       return nameArray;
     }
 
     const snapshot = await getfirstNameOrLastName()
-
+    
+    //console.log("dddddddddddd", documents_1);
     snapshot.forEach((doc) => {
-      documents.push({ ...doc.data(), id: doc.id });
+      documents_1.push({ ...doc.data(), id: doc.id });
     });
-
-    return documents
+    //console.log("dddd", documents_1);
+    return documents_1
   }
 
 
-
   async function checkUserExist(googleId) {
-    const existUser = await getUser(googleId);
+    const existUser = await getUserByGoogleId(googleId);
     if (existUser != null){
       return true;
     }else{
@@ -124,59 +146,9 @@ async function insertUser(profile) {
     }
   }
 
-  // async function updateFollow(currentId, addId) {
-  //   let hasExsit = false;
-  //   const currentUser = await getUser(currentId);
-  //   console.log("currenttt user", currentUser);
-  //   const follow = currentUser.follow;
-  //   for (var i = 0; i < follow.length; i++){
-  //       if (follow[i] === addId){
-  //         hasExsit = true;
-  //         console.log("has exist!");
-  //         return false;
-  //       }
-  //   }
-  //   // const id = currentUser.id;
-  //   if (!hasExsit){
-  //     follow.push(addId);
-  //     console.log("new follow", follow);
-  //     const userRef = projectFirestore.collection("user").doc(currentUser.id);
-  //     const unionRes = await userRef.update({
-  //       "follow": follow
-  //     });
-  //     return true;
-  //   }
-  // }
-
-  // async function updateFollower(currentId, addId) {
-  //   let hasExsit = false;
-  //   console.log("currentidddd", currentId);
-  //   const userRef = projectFirestore.collection("user").doc(currentId);
-  //   const currentUser = await userRef.get();
-  //   const data = currentUser.data();
-  //   console.log("currenttt userrrr", data);
-  //   const follower = data.follower;
-  //   console.log("followerrrr", follower);
-  //   for (var i = 0; i < follower.length; i++){
-  //       if (follower[i] === addId){
-  //         hasExsit = true;
-  //         console.log("has exist!");
-  //         return false;
-  //       }
-  //   }
-  //   if (!hasExsit){
-  //     follower.push(addId);
-  //     console.log("new follower", follower);
-  //     const userRef = projectFirestore.collection("user").doc(currentId);
-  //     const unionRes = await userRef.update({
-  //       "follower": follower
-  //     });
-  //     return true;
-  //   }
-  // }
+  
 
   async function addFollows(user_id, addId) {
-    console.log("in add folloes");
     const postRef = projectFirestore.collection("user").doc(user_id);
   
     const unionRes = await postRef.update({
@@ -185,7 +157,6 @@ async function insertUser(profile) {
   }
 
   async function addFollowers(user_id, addId) {
-    console.log("in add followers");
     const postRef = projectFirestore.collection("user").doc(user_id);
   
     const unionRes = await postRef.update({
@@ -194,7 +165,6 @@ async function insertUser(profile) {
   }
   
   async function deleteFollows(user_id, deleteId) {
-    console.log("in delete follows");
     const postRef = projectFirestore.collection("user").doc(user_id);
     const unionRes = await postRef.update({
       follow: filedValue.arrayRemove(deleteId),
@@ -202,13 +172,110 @@ async function insertUser(profile) {
   }
 
   async function deleteFollowers(user_id, deleteId) {
-    console.log("in delete followers");
     const postRef = projectFirestore.collection("user").doc(user_id);
     const unionRes = await postRef.update({
       follower: filedValue.arrayRemove(deleteId),
     });
   }
 
+  async function updateUserInfo(user_id, firstName, lastName, location, note, file) {
+    //console.log("firstNama", firstName, "lastName", lastName, "location", location, "note", note, "seid", user_id, "file", file);
+    //const URL = "";
+    if (file != null){
+      const fileName = user_id + '_' + file.originalname;
+      const storageRef = projectStorage.ref().child(fileName);
+      let metadata = { contentType: file.mimetype, name: file.originalname };
+      await storageRef.put(file.buffer, metadata);
+      const URL = await storageRef.getDownloadURL();
+      console.log("finish uplaod: ", URL);
+      const userRef = projectFirestore.collection("user").doc(user_id);
+      const unionRes = await userRef.update({
+      firstName: firstName,
+      lastName: lastName,
+      location: location, 
+      note: note,
+      avatar:URL
+      });
+    }else{
+      const userRef = projectFirestore.collection("user").doc(user_id);
+      const unionRes = await userRef.update({
+      firstName: firstName,
+      lastName: lastName,
+      location: location, 
+      note: note,
+    });
+    }
+    
+    
+    
+  }
+
+  async function getAllFollowers(user_id){
+    const documents_follower = [];
+    const userRef = projectFirestore.collection("user").doc(user_id);
+    const doc = await userRef.get();
+    if (!doc.exists) {
+      console.log('No such document!');
+      return null;
+    } else {
+      const foundUser = doc.data();
+      const follower_id_list = foundUser.follower;
+      for (let i = 0; i < follower_id_list.length; i++){
+        const follower = await getUserById(follower_id_list[i]);
+        documents_follower.push(follower);
+        //documents_follow.push({ ...follow, id: follow.id });
+        //console.log("this is follower", documents_follower);
+      }
+      return documents_follower;
+    }
+      
+  }
+
+    async function getAllFollows(user_id){
+      const documents_follow = [];
+      const userRef = projectFirestore.collection("user").doc(user_id);
+      const doc = await userRef.get();
+      if (!doc.exists) {
+        console.log('No such document!');
+        return null;
+      } else {
+        const foundUser = doc.data();
+        const follow_id_list = foundUser.follow;
+        for (let i = 0; i < follow_id_list.length; i++){
+          const follow = await getUserById(follow_id_list[i]);
+          documents_follow.push(follow);
+          //documents_follow.push({ ...follow, id: follow.id });
+          //console.log("this is follower", documents_follow);
+        }
+        return documents_follow;
+      }
+        
+    }
+
+    async function getAllPosts(user_id){
+      const documents_posts = [];
+      // const userRef = projectFirestore.collection("user").doc(user_id);
+      // const doc = await userRef.get();
+      // const userRef = projectFirestore.collection("user");
+      // const doc = await userRef.where('googleId','==',user_id).get();
+      const doc = await getUserByGoogleId(user_id);
+      if (doc == null) {
+        console.log('No such document!');
+        return null;
+      } else {
+        const foundUser = doc;
+        const post_id_list = foundUser.post;
+        for (let i = 0; i < post_id_list.length; i++){
+          const post = await getPostById(post_id_list[i]);
+          documents_posts.push(post);
+          //documents_follow.push({ ...follow, id: follow.id });
+         // console.log("this is post", documents_posts);
+        }
+        return documents_posts;
+      }
+    }
+
+    
 
 
 
@@ -218,7 +285,21 @@ async function insertUser(profile) {
 
 
 
-  module.exports = { insertUser, getUser, checkUserExist, getSatisfiedUser, addFollows, addFollowers, deleteFollows, deleteFollowers};
+
+  module.exports = { insertUser, 
+                     getUserByGoogleId, 
+                     getUserById,
+                     checkUserExist, 
+                     getSatisfiedUser, 
+                     addFollows, 
+                     addFollowers, 
+                     deleteFollows, 
+                     deleteFollowers,
+                     updateUserInfo,
+                     getAllFollowers,
+                     getAllFollows,
+                     getAllPosts
+                   };
 
 
 

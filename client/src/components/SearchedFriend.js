@@ -3,9 +3,25 @@ import Navbar from "./Navbar/Navbar";
 import Axios from "axios";
 import UserGrid from "./UserGrid";
 
-const SearchedFriend = ({friendInfo, userInfo}) =>  {
-    console.log("this is friend info in the search friend page", friendInfo);
-    console.log("length", friendInfo.length);
+const SearchedFriend = ({name, userInfo}) =>  {
+    // const [currentInfo, setCurrentInfo] = useState(null);
+    const [friendInfo, setFriendInfo] = useState([]);
+    //console.log("name", name);
+
+    useEffect(()  => {
+        Axios.get(`/api/user/search/${name}`)
+        .then((res) => {
+        // console.log("dataaaaaaa: friend", res.data);
+        setFriendInfo(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    },[]);
+
+    //currentInfo, foundUserInfo
+    //console.log("this is friend info in the search friend page", friendInfo);
+    //console.log("this is userInfo in the search frined", userInfo);
    return(
     <div className="container">
     <nav aria-label="breadcrumb" className="main-breadcrumb">
@@ -22,24 +38,7 @@ const SearchedFriend = ({friendInfo, userInfo}) =>  {
                     <UserGrid user = {info} userInfo={userInfo}/>
                 ))}
             </section>
-            <div className="text-align-center">
-                <ul className="pagination pagination-sm">
-                    <li className="disabled"><a href="#">Prev</a>
-                    </li>
-                    <li className="active"><a href="#">1</a>
-                    </li>
-                    <li><a href="#">2</a>
-                    </li>
-                    <li><a href="#">3</a>
-                    </li>
-                    <li><a href="#">4</a>
-                    </li>
-                    <li><a href="#">5</a>
-                    </li>
-                    <li><a href="#">Next</a>
-                    </li>
-                </ul>
-            </div>
+            
         </div>
     </div>
     </div>
