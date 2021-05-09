@@ -84,14 +84,16 @@ async function insertUser(profile) {
 
   async function getUserById(id) {
    // console.log("get id", id);
+   const documet_getUserById = [];
     const userRef = projectFirestore.collection("user").doc(id);
     const doc = await userRef.get();
     if (!doc.exists) {
-      console.log('No such document!');
+      console.log('No such document in getUserByid! and id is', id);
       return null;
     } else {
+      documet_getUserById.push({ ...doc.data(), id: doc.id });
       //console.log('Document data:', doc.data());
-      return doc.data();
+      return documet_getUserById[0];
     }
   }
 
@@ -196,6 +198,9 @@ async function insertUser(profile) {
       note: note,
       avatar:URL
       });
+      const returnUser = await getUserById(user_id);
+      console.log("updated user", returnUser);
+      return returnUser;
     }else{
       const userRef = projectFirestore.collection("user").doc(user_id);
       const unionRes = await userRef.update({
@@ -203,7 +208,11 @@ async function insertUser(profile) {
       lastName: lastName,
       location: location, 
       note: note,
-    });
+      });
+      const returnUser = await getUserById(user_id);
+      console.log("updated user", returnUser);
+      return returnUser;
+      
     }
     
     
@@ -215,7 +224,7 @@ async function insertUser(profile) {
     const userRef = projectFirestore.collection("user").doc(user_id);
     const doc = await userRef.get();
     if (!doc.exists) {
-      console.log('No such document!');
+      console.log('No such document in get all follower and id is', user_id);
       return null;
     } else {
       const foundUser = doc.data();
@@ -236,7 +245,7 @@ async function insertUser(profile) {
       const userRef = projectFirestore.collection("user").doc(user_id);
       const doc = await userRef.get();
       if (!doc.exists) {
-        console.log('No such document!');
+        console.log('No such document in get all follow! and id is', user_id);
         return null;
       } else {
         const foundUser = doc.data();
@@ -258,18 +267,24 @@ async function insertUser(profile) {
       // const doc = await userRef.get();
       // const userRef = projectFirestore.collection("user");
       // const doc = await userRef.where('googleId','==',user_id).get();
-      const doc = await getUserByGoogleId(user_id);
+      const doc = await getUserById(user_id);
       if (doc == null) {
-        console.log('No such document!');
+        console.log('No such document! in get all post', user_id);
         return null;
       } else {
         const foundUser = doc;
         const post_id_list = foundUser.post;
+        post_id_list.reverse();
         for (let i = 0; i < post_id_list.length; i++){
           const post = await getPostById(post_id_list[i]);
-          documents_posts.push(post);
+          // documents_posts.push(post);
+          documents_posts.push({
+            ...post,
+            id: post.id,
+            createdAt: post.createdAt.toDate().toLocaleString(),
+          });
           //documents_follow.push({ ...follow, id: follow.id });
-         // console.log("this is post", documents_posts);
+         console.log("this is post", documents_posts);
         }
         return documents_posts;
       }

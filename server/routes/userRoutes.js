@@ -18,22 +18,24 @@ const { getUserByGoogleId,
 module.exports = app =>{
     app.get("/api/user/:id", async (req, res) => {
         console.log("idddd, ", req.params.id);
-        if (!isNaN(req.params.id.charAt(0))){
-            const googleId = req.params.id
-            const userExist = await checkUserExist(googleId);
-            if (userExist){
-            const foundUser = await getUserByGoogleId(googleId);
-            console.log("found user is:", foundUser);
-            res.send(foundUser);
-            }else{
-                return res.status(401).send({error: 'No such user!'});
-            }
-        }else{
+        // if (!isNaN(req.params.id.charAt(0))){
+        //     console.log("1111");
+        //     const googleId = req.params.id
+        //     const userExist = await checkUserExist(googleId);
+        //     if (userExist){
+        //     const foundUser = await getUserByGoogleId(googleId);
+        //     console.log("found user is:", foundUser);
+        //     res.send(foundUser);
+        //     }else{
+        //         return res.status(401).send({error: 'No such user!'});
+        //     }
+        // }else{
+            console.log("2222");
             const id = req.params.id;
             const foundUser = await getUserById(id);
             console.log("found user is:", foundUser);
             res.send(foundUser);
-            }    
+           // }    
     });
 
     app.get("/api/user/search/:name", async (req, res) => {
@@ -82,6 +84,8 @@ module.exports = app =>{
     });
 
     app.get("/api/user/follow/:id", async (req, res) =>{
+        console.log("in get follower");
+        //console.log("id is ", req.params.id);
         const user_id = req.params.id;
         const follow_list = await getAllFollows(user_id);
        // console.log("this si list", follow_list);

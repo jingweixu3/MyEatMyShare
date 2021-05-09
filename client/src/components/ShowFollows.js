@@ -20,7 +20,7 @@ const ShowFollows = ({foundUser, userInfo, follows}) =>  {
             {/* <p className="search-results-count">About {foundUser.length} results</p> */}
             <section className="search-result-item">
                 {foundUser && follows && follows.map((info) => (
-                    <UserGrid key = {info.id} user = {info} userInfo={userInfo} isProfile={true}/>
+                    <UserGrid user = {info} userInfo={userInfo} isProfile={true}/>
                 ))}
             </section>
         </div>
