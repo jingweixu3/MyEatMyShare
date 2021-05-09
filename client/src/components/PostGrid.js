@@ -127,6 +127,7 @@ const PostGrid = ({ post, userInfo }) => {
       username: userInfo.firstName,
       comment: addcomment,
       post_id: post.id,
+      user_id: userInfo.id,
     };
     Axios.post("/api/post/addComment", data, {
       headers: {
@@ -228,7 +229,7 @@ const PostGrid = ({ post, userInfo }) => {
                 <p key={index} className="mb-0">
                   <strong>
                     <Link
-                      to={`/Resturant/${post.resturant_id}`}
+                      to={`/profile/${each.user_id}`}
                       style={{ color: "inherit" }}
                     >
                       {each.username}

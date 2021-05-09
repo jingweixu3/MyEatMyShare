@@ -96,14 +96,15 @@ async function getComments(collection, post_ID) {
   return documents;
 }
 async function uploadComment(body) {
-  let { comment, username, post_id } = { ...body };
-  console.log(comment, username, post_id);
+  let { comment, username, post_id, user_id } = { ...body };
+  console.log(comment, username, post_id, user_id);
   const collectionRef = projectFirestore.collection("post_comments");
   const res = await collectionRef.add({
     comment,
     username,
     post_id,
     createdAt: timestamp(),
+    user_id,
   });
 
   const comment_id = res.id;
