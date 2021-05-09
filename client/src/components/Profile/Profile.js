@@ -5,7 +5,6 @@ import Axios from "axios";
 import UpdateProfile from "../UpdateProfile";
 import ShowFollower from "../ShowFollower";
 import ShowFollows from "../ShowFollows";
-import postGrid from "../PostGrid";
 import PostGrid from "../PostGrid";
 //import useForceUpdate from 'use-force-update';
 
@@ -25,7 +24,10 @@ const Profile = ({id, userInfo}) =>  {
         const setInfo= async() => {
             Axios.get(`/api/user/${id}`)
             .then((res) => {
-                setFoundUser(res.data);  
+                setFoundUser(res.data); 
+                if (followSet.has(res.data.id)){
+                    setFollow(true);
+                }  
                 
             })
             .catch((err) => {
@@ -36,9 +38,7 @@ const Profile = ({id, userInfo}) =>  {
             Axios.get(`/api/user/post/${id}`)
             .then((res) => {
                 setUserPost(res.data); 
-                if (followSet.has(res.data.id)){
-                    setFollow(true);
-                } 
+                
             })
             .catch((err) => {
                 console.log("err in profile");
@@ -55,10 +55,11 @@ const Profile = ({id, userInfo}) =>  {
       }, []);
 
     const handleClickFollower = (e) => {
+        console.log("in handle Click Follower");
         if (foundUser) {
             Axios.get(`/api/user/follower/${foundUser.id}`)
                 .then((res) => {
-                    console.log("data", res.data);
+                    console.log("follower data", res.data);
                     setFollower(res.data);    
                 })
                 .catch((err) => {
@@ -139,7 +140,6 @@ const Profile = ({id, userInfo}) =>  {
     //     setFollow(true);
     // } 
     // console.log("follow of the foundUser22", follow);
-  
   return (
     <div>
         <nav aria-label="breadcrumb" className="main-breadcrumb">
@@ -169,7 +169,7 @@ const Profile = ({id, userInfo}) =>  {
                 <div className="card mt-3">
                     <div className="nav flex-column nav-tabs text-center" id="v-tabs-tab" role="tablist" aria-orientation="vertical">
                         <a className="nav-link active" id="v-tabs-home-tab" datamdbtoggle="tab" href="#v-tabs-home" data-toggle="tab" aria-controls="v-tabs-home" aria-selected="true">Home</a>
-                        {foundUser && userInfo.googleId == foundUser.googleId && <a className="nav-link" id="v-tabs-profile-tab" datamdbtoggle="tab" href="#v-tabs-profile" data-toggle="tab" aria-controls="v-tabs-profile" aria-selected="false" onClick={handleClickProfile}>Update Profile</a>}
+                        {foundUser && userInfo.googleId === foundUser.googleId && <a className="nav-link" id="v-tabs-profile-tab" datamdbtoggle="tab" href="#v-tabs-profile" data-toggle="tab" aria-controls="v-tabs-profile" aria-selected="false" onClick={handleClickProfile}>Update Profile</a>}
                         <a className="nav-link" id="v-tabs-messages-tab" datamdbtoggle="tab" href="#v-tabs-messages" data-toggle="tab" aria-controls="v-tabs-messages" aria-selected="false" onClick={handleClickFollower}>follower</a>
                         <a className="nav-link" id="v-tabs-follower-tab" datamdbtoggle="tab" href="#v-tabs-follower" data-toggle="tab" aria-controls="v-tabs-follower" aria-selected="false" onClick={handleClickFollow}>following</a>
                     </div>
@@ -222,7 +222,7 @@ const Profile = ({id, userInfo}) =>  {
                           <h6 className="d-flex align-items-center mb-3"><i className="material-icons text-info mr-2">Post</i></h6>
                           <section className="search-result-item">
                             {foundUser && userPost && userPost.map((info) => (
-                                <PostGrid key = {info.id} post = {info} userInfo={userInfo}/>
+                                <PostGrid post = {info} userInfo={userInfo}/>
                             ))}
                          </section>
                           </div>
@@ -231,7 +231,7 @@ const Profile = ({id, userInfo}) =>  {
                     </div>
                     </div>
                     {foundUser && userInfo.googleId === foundUser.googleId && <div className="tab-pane fade" id="v-tabs-profile" role="tabpanel" aria-labelledby="v-tabs-profile-tab">
-                       <UpdateProfile foundUser = {foundUser}/>
+                       <UpdateProfile foundUser = {foundUser} setFoundUser = {setFoundUser}/>
                     </div>}
                     <div className="tab-pane fade" id="v-tabs-messages" role="tabpanel" aria-labelledby="v-tabs-messages-tab">
                        <ShowFollower foundUser = {foundUser} userInfo = {userInfo} follower = {follower}/>
