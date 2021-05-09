@@ -35,8 +35,8 @@ async function getAllFriendsPosts(user_id, collection) {
       const snapshot = await projectFirestore
         .collection(collection)
         .where("user_id", "==", friend)
-        .get()
-        .limit(10);
+        .limit(10)
+        .get();
 
       snapshot.forEach((doc) => {
         documents.push({
