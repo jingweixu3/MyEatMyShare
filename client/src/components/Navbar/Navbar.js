@@ -65,7 +65,7 @@ const Navbar = ({userLoggedIn, userInfo, friendInfo, setFriendInfo}) => {
               </form>}
             </li>
             <li className="nav-item avatar ">
-              {userLoggedIn && <a className="nav-link p-0" href={`/profile/${userInfo.googleId}`}> 
+              {userLoggedIn && <a className="nav-link p-0" href={`/profile/${userInfo.id}`}> 
                 {/* { userInfo.avatar === "" && <a className="rounded-circle z-depth-0" height="35" alt="avatar image" >  */}
                 {userInfo.avatar === "" && <img src="https://www.shareicon.net/data/40x40/2016/08/05/806962_user_512x512.png" />}
                 {userInfo.avatar !== "" && <img src={userInfo.avatar} className="rounded-circle z-depth-0"

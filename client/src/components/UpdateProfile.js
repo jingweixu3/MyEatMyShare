@@ -2,7 +2,7 @@ import React,{ useState, useEffect} from "react";
 import Navbar from "./Navbar/Navbar";
 import Axios from "axios";
 
-const UpdateProfile = ({foundUser}) =>  {
+const UpdateProfile = ({foundUser, setFoundUser}) =>  {
     const [fileName, setFileName] = useState("");
     const [file, setFile] = useState(null);
     const [error, setError] = useState(null);
@@ -15,7 +15,8 @@ const UpdateProfile = ({foundUser}) =>  {
     });
     const types = ["image/png", "image/jpeg"];
 
-    const handleClick = (e) => {
+
+    const handleSubmit = (e) => {
         // function handleSubmit() {
            e.preventDefault();
             console.log("state in udate profile", state);
@@ -40,6 +41,7 @@ const UpdateProfile = ({foundUser}) =>  {
                 //console.log(res);
                 setFile(null);
                 setFileName("");
+                // setFoundUser(res.data);
                 // setState({
                 //     firstName:"",
                 //     lastName:"",
@@ -52,6 +54,7 @@ const UpdateProfile = ({foundUser}) =>  {
               });
             //forceUpdate();
     };
+    console.log("set foundUser", foundUser);
 
     const handleFileChange = (e) => {
        //console.log("in profile change", e.target.files[0]);
@@ -70,7 +73,7 @@ const UpdateProfile = ({foundUser}) =>  {
     // console.log("state", state);
     return(
         // <div>
-            <form>
+            <form onSubmit={handleSubmit}>
                     {/* <div className="col-sm-3">
                         <div className="profile-img">
                           <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" className="rounded-circle" width="150" />
@@ -144,7 +147,7 @@ const UpdateProfile = ({foundUser}) =>  {
                         <div className="invalid-feedback"> 
                     </div>
                     </div>
-                    <button className="btn btn-primary" onClick={handleClick}>Submit form</button>
+                    <button className="btn btn-primary" type="submit">Submit form</button>
                     {/* <button className="btn btn-primary" type="submit" onClick="console.log('button clicked'); return false"> 
                        Submit form 
                     </button> */}

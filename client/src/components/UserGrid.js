@@ -58,12 +58,12 @@ const UserGrid = ({user, userInfo,isProfile}) =>  {
     
     return(
         <div>
-           {user && user.avatar === "" && <a className="image-link" href={`/profile/${user.googleId}`}><img className="image" style={{width:"30%", height:"20vw"}} src="https://bootdey.com/img/Content/avatar/avatar1.png" /></a>}
-           {user && user.avatar !== "" && <a className="image-link" href={`/profile/${user.googleId}`}><img className="image" style={{width:"30%", height:"20vw"}} src={user.avatar}/></a>}
+           {user && user.avatar === "" && <a className="image-link" href={`/profile/${user.id}`}><img className="image" style={{width:"30%", height:"20vw"}} src="https://bootdey.com/img/Content/avatar/avatar1.png" /></a>}
+           {user && user.avatar !== "" && <a className="image-link" href={`/profile/${user.id}`}><img className="image" style={{width:"30%", height:"20vw"}} src={user.avatar}/></a>}
             <div className="search-result-item-body">
                 <div className="row">
                     <div className="col-sm-9">
-                        <h4 className="search-result-item-heading"><a href={`/profile/${user.googleId}`}>{user.firstName} {user.lastName}</a></h4>
+                        <h4 className="search-result-item-heading"><a href={`/profile/${user.id}`}>{user.firstName} {user.lastName}</a></h4>
                         <p className="info">{user.location}</p>
                         <p className="description">{user.note}</p>
                     </div>
