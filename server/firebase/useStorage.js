@@ -31,6 +31,7 @@ async function getAllFriendsPosts(user_id, collection) {
     return documents;
   } else {
     let friends = doc.data().follow;
+    friends.push(user_id);
     for (const friend of friends) {
       const snapshot = await projectFirestore
         .collection(collection)
