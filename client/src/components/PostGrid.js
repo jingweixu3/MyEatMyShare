@@ -56,7 +56,7 @@ const PostGrid = ({ post, userInfo }) => {
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState(false);
   const [commentErr, setCommentErr] = useState(false);
-  console.log("post is", post, "userIno is", userInfo);
+  // console.log("post is", post, "userIno is", userInfo);
 
   useEffect(() => {
     const likesSet = new Set(post.likes);
@@ -127,6 +127,7 @@ const PostGrid = ({ post, userInfo }) => {
       username: userInfo.firstName,
       comment: addcomment,
       post_id: post.id,
+      user_id: userInfo.id,
     };
     Axios.post("/api/post/addComment", data, {
       headers: {
@@ -158,9 +159,14 @@ const PostGrid = ({ post, userInfo }) => {
       <Card className={classes.root}>
         <CardHeader
           avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
-              {post.user_name.charAt(0)}
-            </Avatar>
+            <Link
+              to={`/profile/${post.user_id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <Avatar aria-label="recipe" className={classes.avatar}>
+                {post.user_name.charAt(0)}
+              </Avatar>
+            </Link>
           }
           action={
             <IconButton aria-label="settings">
@@ -168,11 +174,18 @@ const PostGrid = ({ post, userInfo }) => {
             </IconButton>
           }
           title={
-            <Link to={`/Resturant/${post.resturant_id}`}>
+            <Link
+              to={`/Resturant/${post.resturant_id}`}
+              style={{ color: "inherit" }}
+            >
               {post.resturant_name}
             </Link>
           }
-          subheader={post.user_name.concat(" - ").concat(post.createdAt)}
+          subheader={
+            <Link to={`/profile/${post.user_id}`} style={{ color: "inherit" }}>
+              {post.user_name.concat(" - ").concat(post.createdAt)}
+            </Link>
+          }
         />
         <CardMedia
           className={classes.media}
@@ -214,7 +227,16 @@ const PostGrid = ({ post, userInfo }) => {
             {comments &&
               comments.map((each, index) => (
                 <p key={index} className="mb-0">
-                  <strong>{each.username}:</strong> {each.comment}
+                  <strong>
+                    <Link
+                      to={`/profile/${each.user_id}`}
+                      style={{ color: "inherit" }}
+                    >
+                      {each.username}
+                    </Link>
+                    :{" "}
+                  </strong>
+                  <strong>{each.comment}</strong>
                 </p>
               ))}
           </CardContent>

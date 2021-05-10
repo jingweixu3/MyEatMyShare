@@ -22,6 +22,38 @@ async function deleteLikes(user_id, post_id) {
   });
 }
 
+async function getAllFriendsPosts(user_id, collection) {
+  let documents = [];
+  console.log(user_id);
+
+  const doc = await projectFirestore.collection("user").doc(user_id).get();
+  if (!doc.exists) {
+    return documents;
+  } else {
+    let friends = doc.data().follow;
+    friends.push(user_id);
+    for (const friend of friends) {
+      const snapshot = await projectFirestore
+        .collection(collection)
+        .where("user_id", "==", friend)
+        .limit(10)
+        .get();
+
+      snapshot.forEach((doc) => {
+        documents.push({
+          ...doc.data(),
+          id: doc.id,
+          createdAt: doc.data().createdAt.toDate().toLocaleString(),
+        });
+      });
+    }
+    documents = documents.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+    return documents;
+  }
+}
+
 async function getAllPosts(collection) {
   let documents = [];
   const snapshot = await projectFirestore
@@ -44,14 +76,13 @@ async function getPostById(id) {
   const postRef = projectFirestore.collection("resturant_posts").doc(id);
   const doc = await postRef.get();
   if (!doc.exists) {
-    console.log('No such document!');
+    console.log("No such document!");
     return null;
   } else {
-    console.log('Document data:', doc.data());
+    console.log("Document data:", doc.data());
     return doc.data();
   }
 }
-
 
 async function getComments(collection, post_ID) {
   let documents = [];
@@ -66,14 +97,15 @@ async function getComments(collection, post_ID) {
   return documents;
 }
 async function uploadComment(body) {
-  let { comment, username, post_id } = { ...body };
-  console.log(comment, username, post_id);
+  let { comment, username, post_id, user_id } = { ...body };
+  console.log(comment, username, post_id, user_id);
   const collectionRef = projectFirestore.collection("post_comments");
   const res = await collectionRef.add({
     comment,
     username,
     post_id,
     createdAt: timestamp(),
+    user_id,
   });
 
   const comment_id = res.id;
@@ -136,5 +168,6 @@ module.exports = {
   getComments,
   addLikes,
   deleteLikes,
-  getPostById
+  getPostById,
+  getAllFriendsPosts,
 };

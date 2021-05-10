@@ -37,34 +37,34 @@ const App = () => {
     }
   }
 
-
   useEffect(() => {
     //setLoggedIn();
-    
-    const setLogin = async() => {
+
+    const setLogin = async () => {
       Axios.get("/api/current_user")
-      .then((res) => {
-        if (res.data.length != 0){
-          setUserInfo(res.data);
-          setuserLoggedIn(true);
-          console.log("user info is", userInfo);
-        }else{
-          console.log("no data");
-          //setuserLoggedIn(false);
-          //setUserInfo(res.data);
-        }
-      })
-      .catch((err) => {
-        console.log("err in App");
-        console.log(err);
-      });
-    }
-    
+        .then((res) => {
+          if (res.data.length != 0) {
+            setUserInfo(res.data);
+            setuserLoggedIn(true);
+            console.log("user info is", userInfo);
+          } else {
+            console.log("no data");
+            //setuserLoggedIn(false);
+            //setUserInfo(res.data);
+          }
+        })
+        .catch((err) => {
+          console.log("err in App");
+          console.log(err);
+        });
+    };
+
     setLogin();
     getLocation();
 
     if (userLoggedIn) {
-      Axios.get("/api/post/all_posts")
+      console.log(userInfo.id);
+      Axios.get(`/api/post/${userInfo.id}`)
         .then((res) => {
           console.log("dataaaaaaa: ", res.data.posts);
           setPosts(res.data.posts);
@@ -82,20 +82,43 @@ const App = () => {
           <Route
             exact
             path="/"
-            render={() => <UserHomePage userLoggedIn = {userLoggedIn} userInfo = {userInfo} posts={posts} setPosts={setPosts} setFriendInfo={setFriendInfo} friendInfo = {friendInfo}/>}
+            render={() => (
+              <UserHomePage
+                userLoggedIn={userLoggedIn}
+                userInfo={userInfo}
+                posts={posts}
+                setPosts={setPosts}
+                setFriendInfo={setFriendInfo}
+                friendInfo={friendInfo}
+              />
+            )}
           />
         )}
         {!userLoggedIn && <Route exact path="/" component={LandingPage} />}
         {/* {userLoggedIn && ( */}
-          <Route
-            path="/ExploreNearby"
-            render={() => <ExploreNearbyPage userLocation={userLocation} userLoggedIn = {userLoggedIn} userInfo = {userInfo} setFriendInfo = {setFriendInfo} friendInfo = {friendInfo}/>}
-          />
+        <Route
+          path="/ExploreNearby"
+          render={() => (
+            <ExploreNearbyPage
+              userLocation={userLocation}
+              userLoggedIn={userLoggedIn}
+              userInfo={userInfo}
+              setFriendInfo={setFriendInfo}
+              friendInfo={friendInfo}
+            />
+          )}
+        />
         {/* )} */}
         {userLoggedIn && (
           <Route
             path="/Resturant/:id"
-            render={(props) => <Resturant id ={props.match.params.id}  userLoggedIn = {userLoggedIn} userInfo = {userInfo}/>}
+            render={(props) => (
+              <Resturant
+                id={props.match.params.id}
+                userLoggedIn={userLoggedIn}
+                userInfo={userInfo}
+              />
+            )}
           />
         )}
         {/* {userLoggedIn && (
@@ -106,18 +129,23 @@ const App = () => {
         )} */}
         {userLoggedIn && (
           <Route
-           path="/profile/:id"
-           render={(props) => <Profile id ={props.match.params.id} userInfo = {userInfo} />}
-           />
+            path="/profile/:id"
+            render={(props) => (
+              <Profile id={props.match.params.id} userInfo={userInfo} />
+            )}
+          />
         )}
         {userLoggedIn && (
           <Route
-           path="/searchFriend/:name"
-           render={(props) => <SearchedFriend name ={props.match.params.name} userInfo = {userInfo}/>}
-           />
+            path="/searchFriend/:name"
+            render={(props) => (
+              <SearchedFriend
+                name={props.match.params.name}
+                userInfo={userInfo}
+              />
+            )}
+          />
         )}
-
-
       </div>
     </Router>
   );

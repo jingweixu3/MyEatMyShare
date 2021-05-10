@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 const express = require("express");
 const router = express.Router();
 const Axios = require("axios");
@@ -16,7 +16,7 @@ router.get("/nearby", async (req, res) => {
     );
 
     let nearby = [];
-   console.log(results.data.results);
+    console.log(results.data.results);
 
     results.data.results.map((value) => {
       // ifconsole.log(value.photos);
@@ -28,11 +28,10 @@ router.get("/nearby", async (req, res) => {
         rating: value.rating,
         name: value.name,
         coordinate: value.geometry.location,
-        price:value.price_level,
-        open:value.opening_hours,
-        close:value.permanently_closed,
-        vicinity:value.vicinity,
-
+        price: value.price_level,
+        open: value.opening_hours,
+        close: value.permanently_closed,
+        vicinity: value.vicinity,
       });
     });
     res.json(nearby);
@@ -49,30 +48,30 @@ router.get("/:id", async (req, res) => {
   let result = await Axios.get(
     `https://maps.googleapis.com/maps/api/place/details/json?place_id=${req.params.id}&fields=name,reviews,photos,icon,vicinity,international_phone_number,rating,opening_hours,types,website,geometry&key=AIzaSyBIWFtkPrXoDOGaO66Addbl-4Fu0mqbIZY`
   );
-  console.log('hh');
+  console.log("hh");
   console.log(result.data.result.opening_hours);
   const value = result.data.result;
 
   var pictures = [];
-  if(result.data.result.photos&& result.data.result.photos.length>0){
-  for(var i = 1; i < result.data.result.photos.length; i++){
-    var picture = result.data.result.photos[i];
+  if (result.data.result.photos && result.data.result.photos.length > 0) {
+    for (var i = 1; i < result.data.result.photos.length; i++) {
+      var picture = result.data.result.photos[i];
       pictures.push(picture);
-  }
+    }
   }
 
   const resturant = {
     place_id: value.place_id,
-    view: (value.photos==[]?null: value.photos[0]),
+    view: value.photos === undefined ? null : value.photos[0],
     photos: pictures,
     vicinity: value.vicinity,
-    phone:value.international_phone_number,
-    website:value.website,
-    types:value.types,
-    openhour:value.opening_hours,
+    phone: value.international_phone_number,
+    website: value.website,
+    types: value.types,
+    openhour: value.opening_hours,
     // rating: value.rating,
     // pictures: pictures,
-    icon:value.icon,
+    icon: value.icon,
     reviews: value.reviews,
     name: value.name,
     coordinate: value.geometry.location,
