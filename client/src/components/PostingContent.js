@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import SearchPlaces from "./SearchPlaces";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const PostingContent = ({ setPostButton, setPosts, userInfo }) => {
   const [file, setFile] = useState(null);
@@ -8,7 +9,7 @@ const PostingContent = ({ setPostButton, setPosts, userInfo }) => {
   const [content, setContent] = useState("");
   const [error, setError] = useState(null);
   const [resturant, setResturant] = useState("");
-
+  const [submitStatus, setSubmitStatus] = useState(false);
   const types = ["image/png", "image/jpeg"];
 
   const handleFileChange = (e) => {
@@ -37,7 +38,7 @@ const PostingContent = ({ setPostButton, setPosts, userInfo }) => {
       setError("No Resturant. Required a resturant!");
       return;
     }
-
+    setSubmitStatus(true);
     console.log(JSON.stringify(resturant));
     const data = new FormData();
     data.append("resturant_id", resturant);
@@ -52,13 +53,14 @@ const PostingContent = ({ setPostButton, setPosts, userInfo }) => {
       },
     })
       .then((res) => {
+        setSubmitStatus(false);
         console.log(res);
         setFile(null);
         setFileName("");
         setContent("");
         setResturant("");
         setPostButton(false);
-        Axios.get("/api/post/all_posts")
+        Axios.get(`/api/post/${userInfo.id}`)
           .then((res) => {
             console.log("dataaaaaaa: ", res.data.posts);
             setPosts(res.data.posts);
@@ -125,6 +127,7 @@ const PostingContent = ({ setPostButton, setPosts, userInfo }) => {
           />
         </div>
       </form>
+      {submitStatus && <CircularProgress />}
     </div>
   );
 };
