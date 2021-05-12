@@ -52,7 +52,7 @@ const Navbar = ({userLoggedIn, userInfo, friendInfo, setFriendInfo}) => {
             </Link>
             </li>
             <li className="nav-item">
-              {!userLoggedIn && <a className="nav-link" href="/auth/google">Login with googles</a>}
+              {!userLoggedIn && <a className="nav-link" href="/auth/google">Login with google</a>}
               {userLoggedIn && <a className="nav-link" href="/api/logout">Logout</a>}
             </li>
           </ul>

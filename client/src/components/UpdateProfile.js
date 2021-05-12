@@ -141,7 +141,7 @@ const UpdateProfile = ({foundUser, setFoundUser}) =>  {
                         </div>
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="validationTextarea">Textarea</label>
+                      <label htmlFor="validationTextarea">Things I like!</label>
                         <textarea className="form-control" id="validationTextarea" value={state.note} placeholder={foundUser.note} onChange={(e) => {setState({...state, note: e.target.value,});
                         }}></textarea>
                         <div className="invalid-feedback"> 
