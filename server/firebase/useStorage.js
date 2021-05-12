@@ -53,6 +53,21 @@ async function getAllFriendsPosts(user_id, collection) {
     return documents;
   }
 }
+//modified
+async function getFriendsPosts(collection, restaurantid) {
+
+  let documents = [];
+  const snapshot = await projectFirestore
+    .collection(collection)
+    .where("resturant_id", "==", restaurantid)
+    // .where("user_id", "==", userid)
+    .get();
+
+  snapshot.forEach((doc) => {
+    documents.push({ ...doc.data(), id: doc.id });
+  });
+  return documents;
+}
 
 async function getAllPosts(collection) {
   let documents = [];
@@ -170,4 +185,5 @@ module.exports = {
   deleteLikes,
   getPostById,
   getAllFriendsPosts,
+  getFriendsPosts
 };

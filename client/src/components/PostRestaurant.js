@@ -85,6 +85,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function PostRestaurant({
+  comment,
   openhour,
   username,
   phone,
@@ -119,6 +120,13 @@ function PostRestaurant({
           </div>
 
           {/* <br/> */}
+          {comment &&( 
+            <List className={classes.rootopen}> 
+                {(comment.posts).map(item => (
+                  <ListItemText secondary={"        <"+ item.content + ">"+ " --  By " + item.user_name} />
+                ))}
+            </List>
+            )}
 
           <Divider />
 
