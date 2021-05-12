@@ -11,6 +11,7 @@ import './Resturant.css';
 const Resturant = ({id, userLoggedIn, userInfo}) => {
   const [resturant, setResturant] = useState(null);
   const [nearby, setNearby] = useState([]);
+  const [comment, setComment] = useState(null);
 
   const mapRef = React.useRef(); // save the map ref to move center or zoom accordingly
 
@@ -30,7 +31,24 @@ const Resturant = ({id, userLoggedIn, userInfo}) => {
       })
       .catch((err) => {
         console.log(err);
-      });     
+      });   
+
+      Axios.get(`/api/resturant/user`, {
+        params: {
+          userid: userInfo.id,
+          restaurantid:id,
+        },
+      })
+      .then((res) => {
+        setComment(res.data);
+        console.log(res.data);
+        console.log(comment);
+        console.log("test");       
+      })
+      .catch((err) => {
+        console.log(err);
+      }); 
+      
   }, []);
 
   const FindNearby = async () => {
@@ -70,7 +88,7 @@ const Resturant = ({id, userLoggedIn, userInfo}) => {
 
 
       {resturant && (
-       <PostRestaurant openhour={resturant.openhour} username={resturant.name} phone={resturant.phone} website={resturant.website} types={resturant.types} icon={resturant.icon} vicinity={resturant.vicinity} captions={resturant.reviews} photos={resturant.photos} view={resturant.view}/>
+       <PostRestaurant comment={comment} openhour={resturant.openhour} username={resturant.name} phone={resturant.phone} website={resturant.website} types={resturant.types} icon={resturant.icon} vicinity={resturant.vicinity} captions={resturant.reviews} photos={resturant.photos} view={resturant.view}/>
       )}
 
       <div className="map">

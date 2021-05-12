@@ -24,7 +24,7 @@ return(
                 <div className='open_close'>
 
                     {resturant.close && (<span className="curclose">permanent close</span>)}
-                    {!resturant.close && resturant.open.open_now &&(
+                    {!resturant.close && resturant.open&& resturant.open.open_now &&(
                         <div>
                             
                             <span className="curopen">open now</span>    

@@ -3,6 +3,20 @@ const express = require("express");
 const router = express.Router();
 const Axios = require("axios");
 
+const {
+  getFriendsPosts
+} = require("../firebase/useStorage");
+
+router.get("/user", async (req, res) => {
+
+  const { userid, restaurantid } = req.query;
+  console.log("------------------where-----------------------");
+  console.log(userid);
+  console.log(restaurantid);
+  res.json({ posts: await getFriendsPosts("resturant_posts",restaurantid)});
+
+});
+
 router.get("/nearby", async (req, res) => {
   // get nearby 20 resturant
 
