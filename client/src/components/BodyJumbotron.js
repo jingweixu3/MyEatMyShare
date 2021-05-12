@@ -4,7 +4,7 @@ const BodyJumbotron = () => {
   return (
     <section className="jumbotron text-center">
       <div className="container">
-        <h1 className="jumbotron-heading">We Share We Eat</h1>
+        <h1 className="jumbotron-heading">We Eat We Share</h1>
         <p className="lead text-muted">
           This is a social networking oriented web application for people who
           are passionate about food and cooking. It is a platform for friends

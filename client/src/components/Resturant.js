@@ -51,7 +51,7 @@ const Resturant = ({id, userLoggedIn, userInfo}) => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar userLoggedIn={userLoggedIn} userInfo={userInfo}/>
 
 
 

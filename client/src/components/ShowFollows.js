@@ -9,13 +9,13 @@ const ShowFollows = ({foundUser, userInfo, follows}) =>  {
 
     return (
         <div className="container">
-    <nav aria-label="breadcrumb" className="main-breadcrumb">
+    {/* <nav aria-label="breadcrumb" className="main-breadcrumb">
         <ol className="breadcrumb">
         <li className="breadcrumb-item"><a href="/">Home</a></li>
         <li className="breadcrumb-item active" aria-current="page">Search Result</li>
         </ol>
-    </nav>
-    <div className="row ng-scope">
+    </nav> */}
+    <div className="row">
         <div className="col-md-9 col-md-pull-3">
             {/* <p className="search-results-count">About {foundUser.length} results</p> */}
             <section className="search-result-item">

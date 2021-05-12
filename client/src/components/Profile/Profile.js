@@ -6,6 +6,7 @@ import UpdateProfile from "../UpdateProfile";
 import ShowFollower from "../ShowFollower";
 import ShowFollows from "../ShowFollows";
 import PostGrid from "../PostGrid";
+//import './profile.css';
 //import useForceUpdate from 'use-force-update';
 
 
