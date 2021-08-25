@@ -1,57 +1,34 @@
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 //const mongoose = require('mongoose');
-const keys = require('../config/keys');
-const { insertUser, getUserByGoogleId } = require('../firebase/models/User');
-
-// const User = mongoose.model('users');
-
+const keys = require("../config/keys");
+const { insertUser, getUserByGoogleId } = require("../firebase/models/User");
 passport.serializeUser((user, done) => {
-    //null是error message，为什么不用google.id是因为会有很多provider
-    console.log("serialize", user.googleId);
-    done(null, user.googleId);
+  console.log("serialize", user.googleId);
+  done(null, user.googleId);
 });
 
 passport.deserializeUser((googleId, done) => {
-    getUserByGoogleId(googleId). then(user => {
-        done(null, user);
-    });
+  getUserByGoogleId(googleId).then((user) => {
+    done(null, user);
+  });
 });
 
-
 passport.use(
-    new GoogleStrategy(
-        {
-            clientID:keys.googleClientID,
-            clientSecret:keys.googleClientSecret,
-            callbackURL:'/auth/google/callback',
-            proxy: true
-        },
-        async (accessToken, refreshToken, profile, done) => { 
-            // console.log('accessToken', accessToken);
-            // console.log('refreshToken', refreshToken);
-            // console.log('profile.id', profile.id);
-            // console.log("emiallll", profile.emails[0].value);
-            const existingUser = await getUserByGoogleId(profile.id);
-            //console.log("existing userrrr",existingUser);
-
-            if (existingUser != null){
-                //console.log("user is:", existingUser);
-                return done(null, existingUser);
-            }
-            const user = await insertUser(profile);
-            // const user = await new User({
-            //     googleId: profile.id,
-            //     firstName: profile.givenName,
-            //     lastName: profile.familyName,
-            //     email: profile.emails[0].value,
-            //     friends:[]
-            //     // blogs:[]
-            // })
-            //     .save();
-            done(null, user);    
-        }
-
-        
-    )
+  new GoogleStrategy(
+    {
+      clientID: keys.googleClientID,
+      clientSecret: keys.googleClientSecret,
+      callbackURL: "/auth/google/callback",
+      proxy: true,
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await getUserByGoogleId(profile.id);
+      if (existingUser != null) {
+        return done(null, existingUser);
+      }
+      const user = await insertUser(profile);
+      done(null, user);
+    }
+  )
 );

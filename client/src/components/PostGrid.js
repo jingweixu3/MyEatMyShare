@@ -56,7 +56,6 @@ const PostGrid = ({ post, userInfo }) => {
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState(false);
   const [commentErr, setCommentErr] = useState(false);
-  // console.log("post is", post, "userIno is", userInfo);
 
   useEffect(() => {
     const likesSet = new Set(post.likes);

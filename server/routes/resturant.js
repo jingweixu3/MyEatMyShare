@@ -3,18 +3,14 @@ const express = require("express");
 const router = express.Router();
 const Axios = require("axios");
 
-const {
-  getFriendsPosts
-} = require("../firebase/useStorage");
+const { getFriendsPosts } = require("../firebase/useStorage");
 
 router.get("/user", async (req, res) => {
-
   const { userid, restaurantid } = req.query;
   console.log("------------------where-----------------------");
   console.log(userid);
   console.log(restaurantid);
-  res.json({ posts: await getFriendsPosts("resturant_posts",restaurantid)});
-
+  res.json({ posts: await getFriendsPosts("resturant_posts", restaurantid) });
 });
 
 router.get("/nearby", async (req, res) => {
@@ -33,9 +29,7 @@ router.get("/nearby", async (req, res) => {
     console.log(results.data.results);
 
     results.data.results.map((value) => {
-      // ifconsole.log(value.photos);
       nearby.push({
-        // view: (value.photos?[]: value.photos[0]),
         view: value.photos[0],
         place_id: value.place_id,
         ratingtotal: value.user_ratings_total,
@@ -57,8 +51,6 @@ router.get("/nearby", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   console.log(req.params.id);
-
-  // fields=name,formatted_phone_number,price_level,geometry
   let result = await Axios.get(
     `https://maps.googleapis.com/maps/api/place/details/json?place_id=${req.params.id}&fields=name,reviews,photos,icon,vicinity,international_phone_number,rating,opening_hours,types,website,geometry&key=AIzaSyBIWFtkPrXoDOGaO66Addbl-4Fu0mqbIZY`
   );
@@ -83,14 +75,10 @@ router.get("/:id", async (req, res) => {
     website: value.website,
     types: value.types,
     openhour: value.opening_hours,
-    // rating: value.rating,
-    // pictures: pictures,
     icon: value.icon,
     reviews: value.reviews,
     name: value.name,
     coordinate: value.geometry.location,
-    // phone: value.formatted_phone_number,
-    // working_hour: value.opening_hours.weekday_text,
   };
   res.json(resturant);
 });

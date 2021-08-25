@@ -1,25 +1,18 @@
 import React, { useState } from "react";
 import SearchPlaces from "./SearchPlaces";
-import  './ExploreNearbyJumbotron.css';
+import "./ExploreNearbyJumbotron.css";
 import Axios from "axios";
 
 const ExploreNearbyJumbotron = ({
   panTo,
   setFindNearByButton,
   findNearByButton,
-  setplaceSearchResult,
+  setPlaceSearchResult,
   setCenter,
 }) => {
-
-
   const [place, setPlace] = useState("");
 
   const [err, setError] = useState(null);
-
-  const onClickNearBy = (e) => {
-    setFindNearByButton(!findNearByButton);
-  };
-
 
   const onClickSearch = (e) => {
     if (!place) {
@@ -30,10 +23,10 @@ const ExploreNearbyJumbotron = ({
     console.log("Search", { place });
 
     // return the result
-    Axios.get(`/api/resturant/${place}`)
+    Axios.get(`/api/restaurant/${place}`)
       .then((res) => {
-        console.log("resturant dataaaaaaa: ", res.data);
-        setplaceSearchResult(res.data);
+        console.log("restaurant data: ", res.data);
+        setPlaceSearchResult(res.data);
         setCenter(res.data.coordinate);
       })
       .catch((err) => {
@@ -42,32 +35,23 @@ const ExploreNearbyJumbotron = ({
   };
 
   return (
-<div>
     <div>
+      <div></div>
 
-
+      <div className="search">
+        <SearchPlaces setRestaurant={setPlace} panTo={panTo} />
+        {console.log("test1" + place)}
+        <div className="searchbutton">
+          <button
+            className="btn btn-light"
+            type="button"
+            onClick={onClickSearch}
+          >
+            Find
+          </button>
+        </div>
+      </div>
     </div>
-
-
-          <div className="search">
-            
-            <SearchPlaces setResturant={setPlace} panTo={panTo}/>
-            {console.log('test1'+ place)}
-            <div className='searchbutton'>
-            <button className='btn btn-light'
-              type="button"
-
-              onClick={onClickSearch}
-            >
-              Find
-            </button>
-            </div>
-
-          </div>
-
-
-</div>
-
   );
 };
 

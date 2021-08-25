@@ -8,7 +8,7 @@ const {
 const Axios = require("axios");
 
 async function addLikes(user_id, post_id) {
-  const postRef = projectFirestore.collection("resturant_posts").doc(post_id);
+  const postRef = projectFirestore.collection("restaurant_posts").doc(post_id);
 
   const unionRes = await postRef.update({
     likes: filedValue.arrayUnion(user_id),
@@ -16,7 +16,7 @@ async function addLikes(user_id, post_id) {
 }
 
 async function deleteLikes(user_id, post_id) {
-  const postRef = projectFirestore.collection("resturant_posts").doc(post_id);
+  const postRef = projectFirestore.collection("restaurant_posts").doc(post_id);
   const unionRes = await postRef.update({
     likes: filedValue.arrayRemove(user_id),
   });
@@ -53,13 +53,13 @@ async function getAllFriendsPosts(user_id, collection) {
     return documents;
   }
 }
-//modified
-async function getFriendsPosts(collection, restaurantid) {
 
+//modified
+async function getFriendsPosts(collection, restaurant_id) {
   let documents = [];
   const snapshot = await projectFirestore
     .collection(collection)
-    .where("resturant_id", "==", restaurantid)
+    .where("restaurant_id", "==", restaurant_id)
     // .where("user_id", "==", userid)
     .get();
 
@@ -88,7 +88,7 @@ async function getAllPosts(collection) {
 
 async function getPostById(id) {
   console.log("get post id", id);
-  const postRef = projectFirestore.collection("resturant_posts").doc(id);
+  const postRef = projectFirestore.collection("restaurant_posts").doc(id);
   const doc = await postRef.get();
   if (!doc.exists) {
     console.log("No such document!");
@@ -124,7 +124,7 @@ async function uploadComment(body) {
   });
 
   const comment_id = res.id;
-  const postRef = projectFirestore.collection("resturant_posts").doc(post_id);
+  const postRef = projectFirestore.collection("restaurant_posts").doc(post_id);
 
   const unionRes = await postRef.update({
     comments: filedValue.arrayUnion(comment_id),
@@ -137,30 +137,30 @@ async function uploadPost(file, body) {
   const createdAt = timestamp();
 
   const storageRef = projectStorage.ref().child(fileName);
-  const collectionRef = projectFirestore.collection("resturant_posts");
+  const collectionRef = projectFirestore.collection("restaurant_posts");
 
   let metadata = { contentType: file.mimetype, name: file.originalname };
-  let resturant_id = body.resturant_id;
+  let restaurant_id = body.restaurant_id;
   let content = body.content;
   let user_id = body.user_id;
   let user_name = body.user_name;
 
   let res = await Axios.get(
-    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${resturant_id}&fields=name&key=AIzaSyDGx9NguhqUd5CeQR8FA12jwLTyFgBekxU`
+    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${restaurant_id}&fields=name&key=AIzaSyDGx9NguhqUd5CeQR8FA12jwLTyFgBekxU`
   );
 
   console.log(res.data.result.name);
 
-  let resturant_name = res.data.result.name;
+  let restaurant_name = res.data.result.name;
   await storageRef.put(file.buffer, metadata);
   const URL = await storageRef.getDownloadURL();
-  console.log("finish uplaod: ", URL);
+  console.log("finish upload: ", URL);
 
   const post = await collectionRef.add({
     url: URL,
     createdAt,
-    resturant_id,
-    resturant_name,
+    restaurant_id,
+    restaurant_name,
     content,
     comments: [],
     likes: [],
@@ -185,5 +185,5 @@ module.exports = {
   deleteLikes,
   getPostById,
   getAllFriendsPosts,
-  getFriendsPosts
+  getFriendsPosts,
 };

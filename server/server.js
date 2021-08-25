@@ -1,42 +1,39 @@
 const express = require("express");
-const keys = require('./config/keys');
-const cookieSession = require('cookie-session');
+const keys = require("./config/keys");
+const cookieSession = require("cookie-session");
 const path = require("path");
 const cors = require("cors");
-const passport = require('passport');
-const bodyParser = require('body-parser');
+const passport = require("passport");
+const bodyParser = require("body-parser");
 
-require('./services/passport');
+require("./services/passport");
 
 const app = express();
 
 app.use(bodyParser.json());
 
 app.use(
-    cookieSession({
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      keys: [keys.cookieKey]
-    })
-  );
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookieKey],
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
 global.XMLHttpRequest = require("xhr2");
 
 // Set post routes to post.js in routes folder
-//const user_route = require("./routes/userRoutes");
 const post = require("./routes/post");
-const resturant = require("./routes/resturant");
-
-
+const restaurant = require("./routes/restaurant");
 
 // Enable CORS
 app.use(cors());
 //app.use("/api/user", user_route);
 app.use("/api/post", post);
-app.use("/api/resturant", resturant);
-require('./routes/authRoutes')(app);
-require('./routes/userRoutes')(app);
+app.use("/api/restaurant", restaurant);
+require("./routes/authRoutes")(app);
+require("./routes/userRoutes")(app);
 
 // homepage endpoint data retrieve from react
 app.get("/api/homepage", (req, res) => {

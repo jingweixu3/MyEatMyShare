@@ -7,7 +7,6 @@ const {
   deleteLikes,
   getAllFriendsPosts,
 } = require("../firebase/useStorage");
-// const requireLogin = require("../middlewares/requireLogin");
 
 const express = require("express");
 const router = express.Router();
@@ -15,13 +14,13 @@ const multer = require("multer");
 const upload = multer();
 
 router.get("/all_posts", async (req, res) => {
-  res.json({ posts: await getAllPosts("resturant_posts") });
+  res.json({ posts: await getAllPosts("restaurant_posts") });
 });
 
 router.get("/:id", async (req, res) => {
-  console.log("friens post");
+  console.log("friend's post");
   const user_id = req.params.id;
-  res.json({ posts: await getAllFriendsPosts(user_id, "resturant_posts") });
+  res.json({ posts: await getAllFriendsPosts(user_id, "restaurant_posts") });
 });
 
 router.post("/addLikes", async (req, res) => {
@@ -51,28 +50,22 @@ router.get("/:id/comments", async (req, res) => {
   res.json({ comments });
 });
 
-router.post(
-  "/upload",
-  // requireLogin,
-  upload.single("file"),
-  async (req, res, next) => {
-    const { file, body } = req;
+router.post("/upload", upload.single("file"), async (req, res, next) => {
+  const { file, body } = req;
 
-    if (
-      file === null ||
-      (file.mimetype != "image/jpeg" && file.mimetype != "image/png")
-    ) {
-      console.log("wrong file type");
-      return res
-        .status(400)
-        .json({ msg: "File uploaded Failed! Check file type!" });
-    }
-    // console.log(file);
-    post_info = await uploadPost(file, body);
-
-    console.log("post_info: ", post_info);
-    res.json({ msg: "Successfully Uploaded!" });
+  if (
+    file === null ||
+    (file.mimetype != "image/jpeg" && file.mimetype != "image/png")
+  ) {
+    console.log("wrong file type");
+    return res
+      .status(400)
+      .json({ msg: "File uploaded Failed! Check file type!" });
   }
-);
+  post_info = await uploadPost(file, body);
+
+  console.log("post_info: ", post_info);
+  res.json({ msg: "Successfully Uploaded!" });
+});
 
 module.exports = router;

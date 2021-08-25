@@ -1,7 +1,3 @@
-// import * as firebase from "firebase/app";
-// import "firebase/storage";
-// import "firebase/firestore";
-
 var firebase = require("firebase/app");
 
 // Add the Firebase products that you want to use

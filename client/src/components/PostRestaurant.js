@@ -41,24 +41,17 @@ const useStyles = makeStyles((theme) => ({
 
   gridList: {
     flexWrap: "nowrap",
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    //   transform: 'translateZ(0)',
   },
   rootcap: {
     flexGrow: 1,
     overflow: "hidden",
-    // padding: theme.spacing(0, 3),
   },
   paper: {
-    // maxWidth: 500,
     margin: `${theme.spacing(1.5)}px auto`,
-    // padding: theme.spacing(1),
   },
   rootlist: {
     width: "95%",
     marginLeft: "2%",
-    // maxWidth: 500,
-    // backgroundColor: theme.palette.background.paper,
     backgroundColor: "transparent",
     position: "relative",
     overflow: "auto",
@@ -74,8 +67,6 @@ const useStyles = makeStyles((theme) => ({
   rootopen: {
     width: "100%",
     margin: `5px 0 0 ${theme.spacing(2)}px`,
-    // maxWidth: 360,
-    // backgroundColor: theme.palette.background.paper
   },
   dividerFullWidth: {
     margin: `5px 0 0 ${theme.spacing(2)}px`,
@@ -120,13 +111,21 @@ function PostRestaurant({
           </div>
 
           {/* <br/> */}
-          {comment &&( 
-            <List className={classes.rootopen}> 
-                {(comment.posts).map(item => (
-                  <ListItemText secondary={"        <"+ item.content + ">"+ " --  By " + item.user_name} />
-                ))}
+          {comment && (
+            <List className={classes.rootopen}>
+              {comment.posts.map((item) => (
+                <ListItemText
+                  secondary={
+                    "        <" +
+                    item.content +
+                    ">" +
+                    " --  By " +
+                    item.user_name
+                  }
+                />
+              ))}
             </List>
-            )}
+          )}
 
           <Divider />
 
@@ -171,13 +170,6 @@ function PostRestaurant({
           >
             Open Hour
           </Typography>
-
-          {/* <List className={classes.rootopen}>
-                        <ListItem>
-                            <ListItemText secondary="Jan 9, 2014" />
-                        </ListItem>
-            </List> */}
-
           {openhour && (
             <List className={classes.rootopen}>
               {openhour.weekday_text.map((item) => (

@@ -3,14 +3,14 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import ExploreNearbyPage from "./components/ExploreNearbyPage";
 import LandingPage from "./components/LandingPage";
 import UserHomePage from "./components/UserHomePage";
-import Resturant from "./components/Resturant";
+import Restaurant from "./components/Restaurant";
 import Profile from "./components/Profile/Profile";
 import SearchedFriend from "./components/SearchedFriend";
 import Axios from "axios";
 
 const App = () => {
   const [posts, setPosts] = useState([]);
-  const [userLoggedIn, setuserLoggedIn] = useState(false);
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [friendInfo, setFriendInfo] = useState([]);
@@ -43,14 +43,12 @@ const App = () => {
     const setLogin = async () => {
       Axios.get("/api/current_user")
         .then((res) => {
-          if (res.data.length != 0) {
+          if (res.data.length !== 0) {
             setUserInfo(res.data);
-            setuserLoggedIn(true);
+            setUserLoggedIn(true);
             console.log("user info is", userInfo);
           } else {
             console.log("no data");
-            //setuserLoggedIn(false);
-            //setUserInfo(res.data);
           }
         })
         .catch((err) => {
@@ -66,7 +64,7 @@ const App = () => {
       console.log(userInfo.id);
       Axios.get(`/api/post/${userInfo.id}`)
         .then((res) => {
-          console.log("dataaaaaaa: ", res.data.posts);
+          console.log("data: ", res.data.posts);
           setPosts(res.data.posts);
         })
         .catch((err) => {
@@ -95,7 +93,6 @@ const App = () => {
           />
         )}
         {!userLoggedIn && <Route exact path="/" component={LandingPage} />}
-        {/* {userLoggedIn && ( */}
         <Route
           path="/ExploreNearby"
           render={() => (
@@ -108,12 +105,11 @@ const App = () => {
             />
           )}
         />
-        {/* )} */}
         {userLoggedIn && (
           <Route
-            path="/Resturant/:id"
+            path="/Restaurant/:id"
             render={(props) => (
-              <Resturant
+              <Restaurant
                 id={props.match.params.id}
                 userLoggedIn={userLoggedIn}
                 userInfo={userInfo}
@@ -121,12 +117,6 @@ const App = () => {
             )}
           />
         )}
-        {/* {userLoggedIn && (
-          <Route
-            path="/Resturant/:id"
-            render={(props) => <Resturant {...props} friendInfo = {friendInfo}/>}
-          />
-        )} */}
         {userLoggedIn && (
           <Route
             path="/profile/:id"

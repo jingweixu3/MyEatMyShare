@@ -8,7 +8,7 @@ const PostingContent = ({ setPostButton, setPosts, userInfo }) => {
   const [fileName, setFileName] = useState("");
   const [content, setContent] = useState("");
   const [error, setError] = useState(null);
-  const [resturant, setResturant] = useState("");
+  const [restaurant, setRestaurant] = useState("");
   const [submitStatus, setSubmitStatus] = useState(false);
   const types = ["image/png", "image/jpeg"];
 
@@ -31,17 +31,17 @@ const PostingContent = ({ setPostButton, setPosts, userInfo }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!file) {
-      setError("No File. Required a picture to uplaod!");
+      setError("No File. Required a picture to upload!");
       return;
     }
-    if (resturant === "") {
-      setError("No Resturant. Required a resturant!");
+    if (restaurant === "") {
+      setError("No Restaurant. Required a restaurant!");
       return;
     }
     setSubmitStatus(true);
-    console.log(JSON.stringify(resturant));
+    console.log(JSON.stringify(restaurant));
     const data = new FormData();
-    data.append("resturant_id", resturant);
+    data.append("restaurant_id", restaurant);
     data.append("file", file);
     data.append("content", content);
     data.append("user_id", userInfo.id);
@@ -58,11 +58,11 @@ const PostingContent = ({ setPostButton, setPosts, userInfo }) => {
         setFile(null);
         setFileName("");
         setContent("");
-        setResturant("");
+        setRestaurant("");
         setPostButton(false);
         Axios.get(`/api/post/${userInfo.id}`)
           .then((res) => {
-            console.log("dataaaaaaa: ", res.data.posts);
+            console.log("data: ", res.data.posts);
             setPosts(res.data.posts);
           })
           .catch((err) => {
@@ -77,7 +77,7 @@ const PostingContent = ({ setPostButton, setPosts, userInfo }) => {
 
   return (
     <div>
-      {/* aleart window when fail to upload  */}
+      {/* alert window when fail to upload  */}
       {error && (
         <div
           className="alert alert-danger alert-dismissible fade show"
@@ -97,7 +97,7 @@ const PostingContent = ({ setPostButton, setPosts, userInfo }) => {
       {/* upload form  */}
       <form className="mt-1 container col-lg-6" onSubmit={onSubmit}>
         <div className="form-group">
-          <SearchPlaces setResturant={setResturant} />
+          <SearchPlaces setRestaurant={setRestaurant} />
         </div>
         <div className="custom-file mb-3">
           <input

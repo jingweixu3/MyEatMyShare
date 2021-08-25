@@ -3,21 +3,21 @@ import PlacesAutocomplete, {
   geocodeByAddress,
 } from "react-places-autocomplete";
 
-const SearchPlaces = ({ setResturant }) => {
+const SearchPlaces = ({ setRestaurant }) => {
   const [address, setAddress] = useState("");
 
   const handleSelect = async (value) => {
     if (value !== "") {
       const results = await geocodeByAddress(value);
       console.log(results[0]);
-      setResturant(results[0].place_id);
+      setRestaurant(results[0].place_id);
       setAddress(value);
     }
   };
 
   const onChange = (value) => {
     setAddress(value);
-    setResturant("");
+    setRestaurant("");
   };
   return (
     <div>

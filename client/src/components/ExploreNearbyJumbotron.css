@@ -1,10 +1,9 @@
 .searchbutton {
-    position: absolute;
-    top: 0rem;
-    left: 27rem;
-    /* background-color: rgb(216, 213, 213); */
-    transform: translateX(-75%);
-    width: 80%;
-    max-width: 100px;
-    z-index: 10;
-  }
+  position: absolute;
+  top: 0rem;
+  left: 27rem;
+  transform: translateX(-75%);
+  width: 80%;
+  max-width: 100px;
+  z-index: 10;
+}

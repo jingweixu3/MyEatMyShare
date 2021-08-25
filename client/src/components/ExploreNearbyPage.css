@@ -1,59 +1,57 @@
 .locate {
-    position: absolute;
-    top: 8rem;
-    left: 7rem;
-    background: none;
-    border: none;
-    z-index: 10;
-  }
-  
-  .locate img {
-    width: 30px;
-    cursor: pointer;
-  }
+  position: absolute;
+  top: 8rem;
+  left: 7rem;
+  background: none;
+  border: none;
+  z-index: 10;
+}
 
-  .search {
-    position: absolute;
-    top: 8rem;
-    left: 20%;
-    transform: translateX(-50%);
-    width: 70%;
-    max-width: 350px;
-    z-index: 10;
-  }
+.locate img {
+  width: 30px;
+  cursor: pointer;
+}
 
-  .nearbybutton {
-    position: absolute;
-    top: 8rem;
-    left: 37%;
-    transform: translateX(-50%);
-    width: 80%;
-    max-width: 100px;
-    z-index: 10;
-  }
+.search {
+  position: absolute;
+  top: 8rem;
+  left: 20%;
+  transform: translateX(-50%);
+  width: 70%;
+  max-width: 350px;
+  z-index: 10;
+}
 
-  .post{
-    position: absolute;
-    margin-top: 125px;
+.nearbybutton {
+  position: absolute;
+  top: 8rem;
+  left: 37%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 100px;
+  z-index: 10;
+}
 
-    height: 60%;    
-  }
-  .vaccum{
+.post {
+  position: absolute;
+  margin-top: 125px;
 
-    color: transparent;
-    border: 1px solid transparent;
-    background: transparent;
-  }
-  .list{
-    background: transparent;
-    position: absolute;
-    top: 11rem;
-    left: 5%;
-    transform: translateX(-50%);
-    width: 80%;
-    max-width: 100px;
-    z-index: 10;
+  height: 60%;
+}
+.vaccum {
+  color: transparent;
+  border: 1px solid transparent;
+  background: transparent;
+}
+.list {
+  background: transparent;
+  position: absolute;
+  top: 11rem;
+  left: 5%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 100px;
+  z-index: 10;
 
-    height: 900px;
-
-  }
+  height: 900px;
+}
